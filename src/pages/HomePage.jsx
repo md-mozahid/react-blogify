@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import Header from "../components/common/Header";
+import { Link } from 'react-router-dom'
 import {
   Delete,
   Edit,
@@ -7,12 +6,11 @@ import {
   TailwindCnThumb,
   ThreeDots,
   UnderratedVideo,
-} from "../constant/images";
+} from '../constant/images'
 
 export default function HomePage() {
   return (
     <>
-      <Header />
       <main>
         {/* <!-- Begin Blogs --> */}
         <section>
@@ -383,5 +381,5 @@ export default function HomePage() {
         {/* <!-- End Blogs --> */}
       </main>
     </>
-  );
+  )
 }
