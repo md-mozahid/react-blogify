@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom'
 import { Logo, Search } from '../../constant/images'
 import { useAuth } from '../../hooks/useAuth'
+import { useProfile } from '../../hooks/useProfile'
 
 export default function Header() {
   const { auth } = useAuth()
+  const { state } = useProfile()
+
+  const user = state?.user ?? auth?.user
   return (
     <header>
       <nav className="container">
@@ -45,16 +49,17 @@ export default function Header() {
                   Login{' '}
                 </Link>
               )}
+              
             </li>
             <Link to="/profile">
               <li className="flex items-center">
                 <div className="avater-img bg-orange-600 text-white">
                   <span className="uppercase">
-                    {auth?.user?.firstName.slice(0, 1)}
+                    {user?.firstName.slice(0, 1)}
                   </span>
                 </div>
                 <span className="text-white ml-2">
-                  {auth?.user?.firstName} {auth?.user?.lastName}
+                  {user?.firstName} {user?.lastName}
                 </span>
               </li>
             </Link>

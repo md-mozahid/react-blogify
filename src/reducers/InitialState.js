@@ -1,5 +1,5 @@
 export const initialState = {
-  user: '',
+  user: null,
   blogs: [],
   loading: false,
   error: null,

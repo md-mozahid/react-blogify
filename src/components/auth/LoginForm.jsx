@@ -11,7 +11,7 @@ export default function LoginForm() {
     formState: { errors },
   } = useForm()
 
-  const {setAuth } = useAuth()
+  const { setAuth } = useAuth()
   const navigate = useNavigate()
 
   const loginFormSubmit = async (formData) => {
@@ -20,7 +20,7 @@ export default function LoginForm() {
       if (response.status === 200) {
         const { token, user } = response.data
         if (token) {
-          const authToken = token.token
+          const authToken = token.accessToken
           const refreshToken = token.refreshToken
           setAuth({ user, authToken, refreshToken })
           navigate('/')
@@ -76,6 +76,7 @@ export default function LoginForm() {
               className="w-full p-3 bg-[#030317] border border-white/20 rounded-md focus:outline-none focus:border-indigo-500"
             />
           </div>
+          <p>{errors?.root?.random?.message}</p>
           <div className="mb-6">
             <button
               type="submit"

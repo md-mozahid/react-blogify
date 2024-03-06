@@ -1,12 +1,5 @@
 import { Link } from 'react-router-dom'
-import {
-  Delete,
-  Edit,
-  ReactRoadmap,
-  TailwindCnThumb,
-  ThreeDots,
-  UnderratedVideo,
-} from '../constant/images'
+import { Delete, Edit, ReactRoadmap, ThreeDots } from '../constant/images'
 
 export default function HomePage() {
   return (
@@ -22,11 +15,12 @@ export default function HomePage() {
                 <div className="blog-card">
                   <img className="blog-thumb" src={ReactRoadmap} alt="" />
                   <div className="mt-2 relative">
-                    <Link to="/single-blog">
+                    {/* solve this error */}
+                    <div to="/single-blog">
                       <h3 className="text-slate-300 text-xl lg:text-2xl">
                         <Link to="/single-blog">React Roadmap in 2024</Link>
                       </h3>
-                    </Link>
+                    </div>
                     <p className="mb-6 text-base text-slate-500 mt-1">
                       Aenean eleifend ante maecenas pulvinar montes lorem et
                       pede dis dolor pretium donec dictum. Vici consequat justo
@@ -102,160 +96,6 @@ export default function HomePage() {
                           <Link to="/profile">
                             <span className="">S</span>
                           </Link>
-                        </div>
-
-                        <div>
-                          <h5 className="text-slate-500 text-sm">
-                            <Link to="/profile">Saad Hasan</Link>
-                          </h5>
-                          <div className="flex items-center text-xs text-slate-700">
-                            <span>June 28, 2018</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="text-sm px-2 py-1 text-slate-700">
-                        <span>100 Likes</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* <!-- Blog Card End --> */}
-
-                {/* <!-- Blog Card Start --> */}
-                <div className="blog-card">
-                  <img className="blog-thumb" src={TailwindCnThumb} alt="" />
-                  <div className="mt-2">
-                    <h3 className="text-slate-300 text-xl lg:text-2xl">
-                      Style your components with TailwindCSS
-                    </h3>
-                    <p className="mb-6 text-base text-slate-500 mt-1">
-                      Aenean eleifend ante maecenas pulvinar montes lorem et
-                      pede dis dolor pretium donec dictum. Vici consequat justo
-                      enim. Venenatis eget adipiscing luctus lorem.
-                    </p>
-
-                    {/* <!-- Meta Informations --> */}
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center capitalize space-x-2">
-                        <div className="avater-img bg-indigo-600 text-white">
-                          <span className="">S</span>
-                        </div>
-
-                        <div>
-                          <h5 className="text-slate-500 text-sm">
-                            <Link to="/profile">Saad Hasan</Link>
-                          </h5>
-                          <div className="flex items-center text-xs text-slate-700">
-                            <span>June 28, 2018</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="text-sm px-2 py-1 text-slate-700">
-                        <span>100 Likes</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* <!-- Blog Card End --> */}
-
-                {/* <!-- Blog Card Start --> */}
-                <div className="blog-card">
-                  <img className="blog-thumb" src={ReactRoadmap} alt="" />
-                  <div className="mt-2">
-                    <Link to="/single-blog">
-                      <h3 className="text-slate-300 text-xl lg:text-2xl">
-                        React Roadmap in 2024
-                      </h3>
-                    </Link>
-                    <p className="mb-6 text-base text-slate-500 mt-1">
-                      Aenean eleifend ante maecenas pulvinar montes lorem et
-                      pede dis dolor pretium donec dictum. Vici consequat justo
-                      enim. Venenatis eget adipiscing luctus lorem.
-                    </p>
-
-                    {/* <!-- Meta Informations --> */}
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center capitalize space-x-2">
-                        <div className="avater-img bg-indigo-600 text-white">
-                          <span className="">S</span>
-                        </div>
-
-                        <div>
-                          <h5 className="text-slate-500 text-sm">
-                            <Link to="/profile">Saad Hasan</Link>
-                          </h5>
-                          <div className="flex items-center text-xs text-slate-700">
-                            <span>June 28, 2018</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="text-sm px-2 py-1 text-slate-700">
-                        <span>100 Likes</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* <!-- Blog Card End --> */}
-
-                {/* <!-- Blog Card Start --> */}
-                <div className="blog-card">
-                  <img className="blog-thumb" src={UnderratedVideo} alt="" />
-                  <div className="mt-2">
-                    <h3 className="text-slate-300 text-xl lg:text-2xl">
-                      React Fetch API
-                    </h3>
-                    <p className="mb-6 text-base text-slate-500 mt-1">
-                      Aenean eleifend ante maecenas pulvinar montes lorem et
-                      pede dis dolor pretium donec dictum. Vici consequat justo
-                      enim. Venenatis eget adipiscing luctus lorem.
-                    </p>
-
-                    {/* <!-- Meta Informations --> */}
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center capitalize space-x-2">
-                        <div className="avater-img bg-indigo-600 text-white">
-                          <span className="">S</span>
-                        </div>
-
-                        <div>
-                          <h5 className="text-slate-500 text-sm">
-                            <Link to="/profile">Saad Hasan</Link>
-                          </h5>
-                          <div className="flex items-center text-xs text-slate-700">
-                            <span>June 28, 2018</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="text-sm px-2 py-1 text-slate-700">
-                        <span>100 Likes</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* <!-- Blog Card End --> */}
-
-                {/* <!-- Blog Card Start --> */}
-                <div className="blog-card">
-                  <img className="blog-thumb" src={TailwindCnThumb} alt="" />
-                  <div className="mt-2">
-                    <h3 className="text-slate-300 text-xl lg:text-2xl">
-                      Style your components with TailwindCSS
-                    </h3>
-                    <p className="mb-6 text-base text-slate-500 mt-1">
-                      Aenean eleifend ante maecenas pulvinar montes lorem et
-                      pede dis dolor pretium donec dictum. Vici consequat justo
-                      enim. Venenatis eget adipiscing luctus lorem.
-                    </p>
-
-                    {/* <!-- Meta Informations --> */}
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center capitalize space-x-2">
-                        <div className="avater-img bg-indigo-600 text-white">
-                          <span className="">S</span>
                         </div>
 
                         <div>
