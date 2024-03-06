@@ -1,25 +1,70 @@
-import { Edit } from '../../constant/images'
-import { useAuth } from '../../hooks/useAuth'
+import { useState } from 'react'
+import { CheckIcon, EditIcon } from '../../constant/images'
+import { useApi } from '../../hooks/useApi'
+import { useProfile } from '../../hooks/useProfile'
+import { actions } from '../../reducers/Actions'
 
 export default function Bio() {
-  const {auth} = useAuth()
+  const { state, dispatch } = useProfile()
+  const { serverApi } = useApi()
+
+  const [bio, setBio] = useState(state?.user?.bio)
+  const [editMode, setEditMode] = useState(false)
+
+  const handleBioEdit = async () => {
+    dispatch({ type: actions.profile.DATA_FETCHING })
+
+    try {
+      const response = await serverApi.patch(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/profile/${state?.user?.id}`,
+        { bio }
+      )
+
+      if (response.status === 200) {
+        dispatch({
+          type: actions.profile.USER_DATA_EDITED,
+          data: response.data,
+        })
+      }
+      setEditMode(false)
+    } catch (err) {
+      dispatch({
+        type: actions.profile.DATA_FETCH_ERROR,
+        error: err.message,
+      })
+    }
+  }
+
   return (
     <div className="mt-4 flex items-start gap-2 lg:mt-6">
       <div className="flex-1">
-        <p className="leading-[188%] text-gray-400 lg:text-lg">
-          {/* Sumit is an entrepreneurial visionary known for his exceptional
-          performance and passion for technology and business. He established
-          Analyzen in 2008 while he was a student at Bangladesh University of
-          Engineering & Technology (BUET). Analyzen has since become a top-tier
-          Web and Mobile Application Development firm and the first Digital and
-          Social Media Marketing Agency in Bangladesh. */}
-          {auth?.user?.bio}
-        </p>
+        {!editMode ? (
+          <p className="leading-[188%] text-gray-400 lg:text-lg">
+            {state?.user?.bio}
+          </p>
+        ) : (
+          <textarea
+            className='p-2 className="leading-[188%] text-gray-600 lg:text-lg rounded-md'
+            value={bio}
+            rows={4}
+            cols={55}
+            onChange={(e) => setBio(e.target.value)}
+          />
+        )}
       </div>
-      {/* <!-- Edit Bio button. The Above bio will be editable when clicking on the button --> */}
-      <button className="flex-center h-7 w-7 rounded-full">
-        <img src={Edit} alt="Edit" />
-      </button>
+      {!editMode ? (
+        <button
+          className="flex-center h-7 w-7 rounded-full"
+          onClick={() => setEditMode(true)}>
+          <img src={EditIcon} alt="Edit" />
+        </button>
+      ) : (
+        <button
+          className="flex-center h-7 w-7 rounded-full"
+          onClick={handleBioEdit}>
+          <img src={CheckIcon} alt="Check" />
+        </button>
+      )}
     </div>
   )
 }

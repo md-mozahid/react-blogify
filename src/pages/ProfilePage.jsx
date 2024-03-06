@@ -5,10 +5,11 @@ import { useApi } from '../hooks/useApi'
 import { useAuth } from '../hooks/useAuth'
 import { useProfile } from '../hooks/useProfile'
 import { actions } from '../reducers/Actions'
+import { localhostApi } from '../api'
 
 export default function ProfilePage() {
   const { state, dispatch } = useProfile()
-  const { api } = useApi()
+  const { serverApi } = useApi()
   const { auth } = useAuth()
 
   useEffect(() => {
@@ -16,7 +17,9 @@ export default function ProfilePage() {
 
     const fetchProfile = async () => {
       try {
-        const response = await api.get(`/profile/${auth?.user?.id}`)
+        const response = await serverApi.get(
+          `${localhostApi}/profile/${auth?.user?.id}`
+        )
 
         if (response.status === 200) {
           dispatch({
@@ -33,7 +36,7 @@ export default function ProfilePage() {
       }
     }
     fetchProfile()
-  }, [api, dispatch, auth.user.id])
+  }, [serverApi, dispatch, auth.user.id])
 
   if (state?.loading) {
     return <div className="">Fetching your profile data...</div>

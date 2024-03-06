@@ -1,7 +1,7 @@
 import {
-  Close,
-  Delete,
-  Edit,
+  CloseIcon,
+  DeleteIcon,
+  EditIcon,
   ReactRoadmap,
   TailwindCnThumb,
   ThreeDots,
@@ -128,7 +128,7 @@ export default function SearchModal() {
 
           <a href="./index.html">
             <img
-              src={Close}
+              src={CloseIcon}
               alt="Close"
               className="absolute right-2 top-2 cursor-pointer w-8 h-8"
             />
@@ -187,11 +187,11 @@ export default function SearchModal() {
                       {/* <!-- Action Menus Popup --> */}
                       <div className="action-modal-container">
                         <button className="action-menu-item hover:text-lwsGreen">
-                          <img src={Edit} alt="Edit" />
+                          <img src={EditIcon} alt="Edit" />
                           Edit
                         </button>
                         <button className="action-menu-item hover:text-red-500">
-                          <img src={Delete} alt="Delete" />
+                          <img src={DeleteIcon} alt="Delete" />
                           Delete
                         </button>
                       </div>

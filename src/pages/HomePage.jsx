@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Delete, Edit, ReactRoadmap, ThreeDots } from '../constant/images'
+import { DeleteIcon, EditIcon, ReactRoadmap, ThreeDots } from '../constant/images'
 
 export default function HomePage() {
   return (
@@ -58,11 +58,11 @@ export default function HomePage() {
                       {/* <!-- Action Menus Popup --> */}
                       <div className="action-modal-container">
                         <button className="action-menu-item hover:text-lwsGreen">
-                          <img src={Edit} alt="Edit" />
+                          <img src={EditIcon} alt="Edit" />
                           Edit
                         </button>
                         <button className="action-menu-item hover:text-red-500">
-                          <img src={Delete} alt="Delete" />
+                          <img src={DeleteIcon} alt="Delete" />
                           Delete
                         </button>
                       </div>

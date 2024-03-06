@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Logo, Search } from '../../constant/images'
+import { Logo, SearchIcon } from '../../constant/images'
 import { useAuth } from '../../hooks/useAuth'
 import { useProfile } from '../../hooks/useProfile'
 
@@ -29,7 +29,7 @@ export default function Header() {
               <Link
                 to="/search"
                 className="flex items-center gap-2 cursor-pointer">
-                <img src={Search} alt="Search" />
+                <img src={SearchIcon} alt="Search" />
                 <span>Search</span>
               </Link>
             </li>

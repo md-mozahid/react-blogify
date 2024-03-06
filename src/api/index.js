@@ -1,6 +1,8 @@
-import axios from "axios";
-const localhostApi = import.meta.env.VITE_SERVER_BASE_URL;
+import axios from 'axios'
+const localhostApi = import.meta.env.VITE_SERVER_BASE_URL
 
-export const serverApi = axios.create({
+const serverApi = axios.create({
   baseURL: localhostApi,
-});
+})
+
+export { localhostApi, serverApi }

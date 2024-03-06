@@ -7,27 +7,29 @@ import TailwindCnThumb from "../assets/blogs/tailwind-cn-thumb.jpg";
 
 // icons
 import ThreeDots from "../assets/icons/3dots.svg";
-import Edit from "../assets/icons/edit.svg";
-import Delete from "../assets/icons/delete.svg";
-import Search from "../assets/icons/search.svg";
-import Close from "../assets/icons/close.svg";
-import Like from "../assets/icons/like.svg";
-import Heart from "../assets/icons/heart.svg";
+import EditIcon from "../assets/icons/edit.svg";
+import DeleteIcon from "../assets/icons/delete.svg";
+import SearchIcon from "../assets/icons/search.svg";
+import CloseIcon from "../assets/icons/close.svg";
+import LikeIcon from "../assets/icons/like.svg";
+import HeartIcon from "../assets/icons/heart.svg";
 import HeartFilled from "../assets/icons/heart-filled.svg";
 import Comment from "../assets/icons/comment.svg";
+import CheckIcon from "../assets/icons/check.svg";
 
 export {
   Logo,
   ReactRoadmap,
   ThreeDots,
-  Edit,
+  EditIcon,
   UnderratedVideo,
   TailwindCnThumb,
-  Delete,
-  Search,
-  Close,
-  Like,
-  Heart,
+  DeleteIcon,
+  SearchIcon,
+  CloseIcon,
+  LikeIcon,
+  HeartIcon,
   HeartFilled,
   Comment,
+  CheckIcon
 };

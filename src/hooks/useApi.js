@@ -1,5 +1,6 @@
+import axios from 'axios'
 import { useEffect } from 'react'
-import { serverApi } from '../api'
+import { localhostApi, serverApi } from '../api'
 import { useAuth } from './useAuth'
 
 export const useApi = () => {
@@ -31,16 +32,19 @@ export const useApi = () => {
 
           try {
             const refreshToken = auth?.refreshToken
-            const response = await serverApi.post('/auth/refresh-token', {
-              refreshToken,
-            })
+            const response = await axios.post(
+              `${localhostApi}/auth/refresh-token`,
+              {
+                refreshToken,
+              }
+            )
             const { accessToken } = response.data
             console.log(`New token: ${accessToken}`)
             setAuth({ ...auth, authToken: accessToken })
 
             // Retry the original request with the new token
             originalRequest.headers.Authorization = `Bearer ${accessToken}`
-            return serverApi(originalRequest)
+            return axios(originalRequest)
           } catch (error) {
             console.error(error)
           }

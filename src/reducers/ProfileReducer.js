@@ -17,7 +17,7 @@ export const ProfileReducer = (state, action) => {
       return {
         ...state,
         loading: false,
-        user: action.data.user,
+        user: action.data,
         blogs: action.data.blogs,
       }
     }
@@ -35,7 +35,7 @@ export const ProfileReducer = (state, action) => {
         ...state,
         loading: false,
         user: {
-          ...state.user,
+          ...state,
           avatar: action.data?.avatar,
         },
       }
