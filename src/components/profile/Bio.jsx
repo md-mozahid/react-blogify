@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { CheckIcon, EditIcon } from '../../constant/images'
 import { useApi } from '../../hooks/useApi'
 import { useProfile } from '../../hooks/useProfile'
-import { actions } from '../../reducers/Actions'
+import { ProfileActions } from "../../reducers/profileReducer/ProfileActions";
 
 export default function Bio() {
   const { state, dispatch } = useProfile()
@@ -12,7 +12,7 @@ export default function Bio() {
   const [editMode, setEditMode] = useState(false)
 
   const handleBioEdit = async () => {
-    dispatch({ type: actions.profile.DATA_FETCHING })
+    dispatch({ type: ProfileActions.profile.DATA_FETCHING })
 
     try {
       const response = await serverApi.patch(
@@ -22,14 +22,14 @@ export default function Bio() {
 
       if (response.status === 200) {
         dispatch({
-          type: actions.profile.USER_DATA_EDITED,
+          type: ProfileActions.profile.USER_DATA_EDITED,
           data: response.data,
         })
       }
       setEditMode(false)
     } catch (err) {
       dispatch({
-        type: actions.profile.DATA_FETCH_ERROR,
+        type: ProfileActions.profile.DATA_FETCH_ERROR,
         error: err.message,
       })
     }

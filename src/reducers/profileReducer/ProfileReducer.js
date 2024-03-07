@@ -1,16 +1,22 @@
-import { actions } from './Actions'
+import { ProfileActions } from "./ProfileActions";
 
 const { DATA_FETCHING, DATA_FETCHED, DATA_FETCH_ERROR, IMAGE_UPDATED } =
-  actions.profile
+  ProfileActions.profile;
 
-export const ProfileReducer = (state, action) => {
+const initialState = {
+  user: null,
+  blogs: [],
+  loading: false,
+  error: null,
+};
 
+const profileReducer = (state, action) => {
   switch (action.type) {
     case DATA_FETCHING: {
       return {
         ...state,
         loading: true,
-      }
+      };
     }
 
     case DATA_FETCHED: {
@@ -19,7 +25,7 @@ export const ProfileReducer = (state, action) => {
         loading: false,
         user: action.data,
         blogs: action.data.blogs,
-      }
+      };
     }
 
     case DATA_FETCH_ERROR: {
@@ -27,7 +33,7 @@ export const ProfileReducer = (state, action) => {
         ...state,
         loading: false,
         error: action.error,
-      }
+      };
     }
 
     case IMAGE_UPDATED: {
@@ -38,10 +44,12 @@ export const ProfileReducer = (state, action) => {
           ...state,
           avatar: action.data?.avatar,
         },
-      }
+      };
     }
 
     default:
-      return state
+      return state;
   }
-}
+};
+
+export { profileReducer, initialState };

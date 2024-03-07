@@ -1,6 +1,10 @@
-import { ReactRoadmap } from "../../constant/images";
+import BlogComment from "../components/singleBlog/BlogComment";
+import { ReactRoadmap } from "../constant/images";
+import { useBlog } from "../hooks";
 
 export default function SingleBlog() {
+  const { state } = useBlog();
+  const blogs = state?.blogs;
   return (
     <>
       <section>
@@ -21,7 +25,7 @@ export default function SingleBlog() {
           <img
             className="mx-auto w-full md:w-8/12 object-cover h-80 md:h-96"
             src={ReactRoadmap}
-            alt=""
+            alt="thumbnail"
           />
 
           {/* <!-- Tags --> */}
@@ -67,6 +71,7 @@ export default function SingleBlog() {
             hashcode conflict, and if not, we can generate code that directly
           </div>
         </div>
+        <BlogComment blogs={blogs} />
       </section>
     </>
   );

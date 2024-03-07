@@ -5,6 +5,7 @@ import ProfilePage from "./ProfilePage";
 import SearchModal from "./SearchModal";
 import CreateBlog from "./CreateBlog";
 import NotFoundPage from "./NotFoundPage";
+import SingleBlog from "./SingleBlog";
 
 export {
   HomePage,
@@ -13,5 +14,6 @@ export {
   CreateBlog,
   ProfilePage,
   SearchModal,
-  NotFoundPage
+  NotFoundPage,
+  SingleBlog,
 };

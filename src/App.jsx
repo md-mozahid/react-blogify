@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes } from "react-router-dom";
 import {
   CreateBlog,
   HomePage,
@@ -6,8 +6,9 @@ import {
   NotFoundPage,
   ProfilePage,
   RegistrationPage,
-} from './pages'
-import PrivateRoutes from './routes/PrivateRoutes'
+  SingleBlog,
+} from "./pages";
+import PrivateRoutes from "./routes/PrivateRoutes";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route element={<PrivateRoutes />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/single-blog" element={<SingleBlog />} />
           <Route path="/create-blog" element={<CreateBlog />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
@@ -23,7 +25,7 @@ function App() {
         <Route path="/not-found" element={<NotFoundPage />} />
       </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
