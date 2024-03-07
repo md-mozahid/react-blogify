@@ -11,7 +11,7 @@ export default function PrivateRoutes() {
         <>
           <ProfileProvider>
             <Header />
-            <main className="mx-auto max-w-[1020px] py-8">
+            <main className="">
               <div className="container">
                 <Outlet />
               </div>

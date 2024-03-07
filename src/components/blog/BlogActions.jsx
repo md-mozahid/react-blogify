@@ -11,8 +11,7 @@ export default function BlogActions() {
           </li>
 
           <li>
-            {/* <!-- There is heart-filled.svg in the icons folder --> */}
-            <img src={Heart} alt="Favourite" />
+            <img src={Heart} alt="Favorite" />
           </li>
           <a href="#comments">
             <li>
