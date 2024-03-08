@@ -2,11 +2,13 @@ import { useState } from 'react'
 import { CheckIcon, EditIcon } from '../../constant/images'
 import { useApi } from '../../hooks/useApi'
 import { useProfile } from '../../hooks/useProfile'
-import { ProfileActions } from "../../reducers/profileReducer/ProfileActions";
+import { ProfileActions } from '../../reducers/profileReducer/ProfileActions'
+import { localhostApi } from '../../api'
 
 export default function Bio() {
   const { state, dispatch } = useProfile()
   const { serverApi } = useApi()
+  // console.log(state)
 
   const [bio, setBio] = useState(state?.user?.bio)
   const [editMode, setEditMode] = useState(false)
@@ -16,7 +18,7 @@ export default function Bio() {
 
     try {
       const response = await serverApi.patch(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/profile/${state?.user?.id}`,
+        `${localhostApi}/profile/${state?.user?.id}`,
         { bio }
       )
 
@@ -27,10 +29,10 @@ export default function Bio() {
         })
       }
       setEditMode(false)
-    } catch (err) {
+    } catch (error) {
       dispatch({
         type: ProfileActions.profile.DATA_FETCH_ERROR,
-        error: err.message,
+        error: error.message,
       })
     }
   }
@@ -46,12 +48,13 @@ export default function Bio() {
           <textarea
             className='p-2 className="leading-[188%] text-gray-600 lg:text-lg rounded-md'
             value={bio}
-            rows={4}
-            cols={55}
+            rows={5}
+            cols={60}
             onChange={(e) => setBio(e.target.value)}
           />
         )}
       </div>
+
       {!editMode ? (
         <button
           className="flex-center h-7 w-7 rounded-full"

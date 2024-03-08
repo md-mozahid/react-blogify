@@ -1,53 +1,51 @@
-import { useEffect } from "react";
-import MyPost from "../components/profile/MyPost";
-import ProfileInfo from "../components/profile/ProfileInfo";
-import { useApi } from "../hooks/useApi";
-import { useAuth } from "../hooks/useAuth";
-import { useProfile } from "../hooks/useProfile";
-import { ProfileActions } from "../reducers/profileReducer/ProfileActions";
-import { localhostApi } from "../api";
+import { useEffect } from 'react'
+import { localhostApi } from '../api'
+import MyPost from '../components/profile/MyPost'
+import ProfileInfo from '../components/profile/ProfileInfo'
+import { useApi } from '../hooks/useApi'
+import { useAuth } from '../hooks/useAuth'
+import { useProfile } from '../hooks/useProfile'
+import { ProfileActions } from '../reducers/profileReducer/ProfileActions'
 
 export default function ProfilePage() {
-  const { state, dispatch } = useProfile();
-  const { serverApi } = useApi();
-  const { auth } = useAuth();
+  const { state, dispatch } = useProfile()
+  const { serverApi } = useApi()
+  const { auth } = useAuth()
 
   useEffect(() => {
-    dispatch({ type: ProfileActions.profile.DATA_FETCHING });
+    dispatch({ type: ProfileActions.profile.DATA_FETCHING })
 
     const fetchProfile = async () => {
       try {
         const response = await serverApi.get(
           `${localhostApi}/profile/${auth?.user?.id}`
-        );
+        )
 
         if (response.status === 200) {
           dispatch({
             type: ProfileActions.profile.DATA_FETCHED,
             data: response.data,
-          });
+          })
         }
       } catch (error) {
-        console.error(error);
+        console.error(error)
         dispatch({
           type: ProfileActions.profile.DATA_FETCH_ERROR,
           error: error.message,
-        });
+        })
       }
-    };
-    fetchProfile();
-  }, [serverApi, dispatch, auth.user.id]);
+    }
+    fetchProfile()
+  }, [serverApi, dispatch, auth?.user?.id])
 
   if (state?.loading) {
-    return <div className="">Fetching your profile data...</div>;
+    return <div className="">Fetching your profile data...</div>
   }
 
   return (
     <>
-      <div className="flex flex-col items-center py-8 text-center">
-        <ProfileInfo />
-      </div>
+      <ProfileInfo />
       <MyPost />
     </>
-  );
+  )
 }

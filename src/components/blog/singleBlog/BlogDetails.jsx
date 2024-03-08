@@ -1,10 +1,11 @@
 import { localhostApi } from '../../../api'
 import { useSingleBlog } from '../../../hooks'
+import { formateDate } from '../../../utils/getDate'
 import BlogComment from './BlogComment'
 
 export default function BlogDetails() {
   const { state } = useSingleBlog()
-  // console.log(state)
+
 
   return (
     <section>
@@ -22,7 +23,7 @@ export default function BlogDetails() {
             </h5>
           </div>
           <span className="text-sm text-slate-700 dot">
-            {state?.blog?.createdAt}
+            {formateDate(state?.blog?.createdAt)}
           </span>
           <span className="text-sm text-slate-700 dot">
             {state?.blog?.likes?.length ?? 0} Likes

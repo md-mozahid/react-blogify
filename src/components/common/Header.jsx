@@ -1,13 +1,11 @@
 import { Link } from 'react-router-dom'
 import { Logo, SearchIcon } from '../../constant/images'
 import { useAuth } from '../../hooks/useAuth'
-import { useProfile } from '../../hooks/useProfile'
+import Logout from './Logout'
 
 export default function Header() {
   const { auth } = useAuth()
-  const { state } = useProfile()
 
-  const user = state?.user ?? auth?.user
   return (
     <header>
       <nav className="container">
@@ -25,44 +23,42 @@ export default function Header() {
                 Write
               </Link>
             </li>
-            <li>
-              <Link
-                to="/search"
-                className="flex items-center gap-2 cursor-pointer">
-                <img src={SearchIcon} alt="Search" />
-                <span>Search</span>
-              </Link>
-            </li>
+            {auth?.user && (
+              <li>
+                <Link
+                  to="/search"
+                  className="flex items-center gap-2 cursor-pointer">
+                  <img src={SearchIcon} alt="Search" />
+                  <span>Search</span>
+                </Link>
+              </li>
+            )}
+
             <li>
               {auth?.user ? (
-                <Link
-                  to="/login"
-                  className="text-white/50 hover:text-white transition-all duration-200">
-                  {' '}
-                  Logout{' '}
-                </Link>
+                <Logout />
               ) : (
                 <Link
                   to="/login"
                   className="text-white/50 hover:text-white transition-all duration-200">
-                  {' '}
-                  Login{' '}
+                  Login
                 </Link>
               )}
-              
             </li>
-            <Link to="/profile">
-              <li className="flex items-center">
-                <div className="avater-img bg-orange-600 text-white">
-                  <span className="uppercase">
-                    {user?.firstName.slice(0, 1)}
+            {auth?.user && (
+              <Link to="/profile">
+                <li className="flex items-center">
+                  <div className="avater-img bg-orange-600 text-white">
+                    <span className="uppercase">
+                      {auth?.user?.firstName.slice(0, 1)}
+                    </span>
+                  </div>
+                  <span className="text-white ml-2">
+                    {auth?.user?.firstName} {auth?.user?.lastName}
                   </span>
-                </div>
-                <span className="text-white ml-2">
-                  {user?.firstName} {user?.lastName}
-                </span>
-              </li>
-            </Link>
+                </li>
+              </Link>
+            )}
           </ul>
         </div>
       </nav>

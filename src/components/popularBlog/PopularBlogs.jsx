@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useApi } from '../../hooks'
+import { useApi, useSingleBlog } from '../../hooks'
 import PopularBlog from './PopularBlog'
 
 export default function PopularBlogs() {
   const [blogs, setBlogs] = useState([])
   const { serverApi } = useApi()
+  const { blogId} = useSingleBlog()
 
   useEffect(() => {
     const fetchPopularBlogs = async () => {
@@ -14,12 +15,12 @@ export default function PopularBlogs() {
           setBlogs(res.data?.blogs)
         }
       } catch (error) {
-        console.error(error)
+        console.error("Error fetching popular blog!", error)
       }
     }
 
     fetchPopularBlogs()
-  }, [serverApi])
+  }, [serverApi, blogId])
   return (
     <div className="sidebar-card">
       <h3 className="text-slate-300 text-xl lg:text-2xl font-semibold">

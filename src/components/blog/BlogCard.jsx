@@ -4,7 +4,6 @@ import { useAuth, useSingleBlog } from '../../hooks'
 import BlogAuthorInfo from './BlogAuthorInfo'
 import BlogHeader from './BlogHeader'
 
-
 export default function BlogCard({ blog }) {
   const { auth } = useAuth()
   const { setBlogId } = useSingleBlog()
@@ -16,8 +15,10 @@ export default function BlogCard({ blog }) {
   }
   return (
     <>
-      <div className="my-6 space-y-4" onClick={() => handleClick(blog?.id)}>
-        <div className="blog-card relative">
+      <div className="my-6 space-y-4">
+        <div
+          className="blog-card relative"
+          onClick={() => handleClick(blog?.id)}>
           {blog?.thumbnail ? (
             <img
               className="blog-thumb"
@@ -27,10 +28,13 @@ export default function BlogCard({ blog }) {
           ) : null}
 
           <div className="mt-2">
-            <h3 className="text-slate-300 text-xl lg:text-2xl">{blog.title}</h3>
-            <p className="mb-6 text-base text-slate-500 mt-1">{blog.content}</p>
+            <h3 className="text-slate-300 text-xl lg:text-2xl">
+              {blog?.title}
+            </h3>
+            <p className="mb-6 text-base text-slate-500 mt-1">
+              {blog?.content}
+            </p>
             <BlogAuthorInfo blog={blog} />
-            {/* yet not fixed */}
             {auth?.user && <BlogHeader />}
           </div>
         </div>

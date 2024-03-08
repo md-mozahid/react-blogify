@@ -51,7 +51,7 @@ export default function LoginForm() {
               id="email"
               name="email"
               className="w-full p-3 bg-[#030317] border border-white/20 rounded-md focus:outline-none focus:border-indigo-500"
-              defaultValue="salahuddin@learnwithsumit.com"
+              defaultValue="saadhasan@learnwithsumit.com"
             />
           </div>
           <div className="mb-6">
