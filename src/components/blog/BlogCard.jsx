@@ -1,15 +1,22 @@
+import { useNavigate } from 'react-router-dom'
 import { localhostApi } from '../../api'
-import { useAuth } from '../../hooks'
+import { useAuth, useSingleBlog } from '../../hooks'
 import BlogAuthorInfo from './BlogAuthorInfo'
 import BlogHeader from './BlogHeader'
 
+
 export default function BlogCard({ blog }) {
   const { auth } = useAuth()
-  // console.log(auth)
-  // console.log(blog);
+  const { setBlogId } = useSingleBlog()
+  const navigate = useNavigate()
+
+  const handleClick = (blogId) => {
+    setBlogId(blogId)
+    navigate('/single-blog')
+  }
   return (
     <>
-      <div className="my-6 space-y-4">
+      <div className="my-6 space-y-4" onClick={() => handleClick(blog?.id)}>
         <div className="blog-card relative">
           {blog?.thumbnail ? (
             <img

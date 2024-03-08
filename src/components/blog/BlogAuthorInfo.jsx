@@ -22,12 +22,12 @@ export default function BlogAuthorInfo({ blog }) {
             </h5>
           </Link>
           <div className="flex items-center text-xs text-slate-700">
-            <span>{blog.createAt}</span>
+            <span>{blog?.createAt}</span>
           </div>
         </div>
       </div>
       <div className="text-sm px-2 py-1 text-slate-700">
-        <span>{blog.likes.length} Likes</span>
+        <span>{blog?.likes?.length ?? 0} Likes</span>
       </div>
     </div>
   )

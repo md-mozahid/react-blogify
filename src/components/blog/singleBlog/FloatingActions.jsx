@@ -1,4 +1,4 @@
-import { HeartIcon, LikeIcon, Comment } from "../../constant/images";
+import { HeartIcon, LikeIcon, Comment } from "../../../constant/images";
 
 export default function FloatingActions() {
 

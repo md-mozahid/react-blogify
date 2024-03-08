@@ -1,36 +1,36 @@
-import { useEffect } from "react";
-import BlogList from "../components/blog/BlogList";
-import SideBar from "./SideBar";
-import { localhostApi } from "../api";
-import { BlogActions } from "../reducers/blogReducer/BlogActions";
-import { useApi, useBlog } from "../hooks";
+import { useEffect } from 'react'
+import { localhostApi } from '../api'
+import BlogList from '../components/blog/BlogList'
+import { useApi, useBlog } from '../hooks'
+import { BlogActions } from '../reducers/blogReducer/BlogActions'
+import SideBar from './SideBar'
 
 export default function HomePage() {
-  const { state, dispatch } = useBlog();
-  const { serverApi } = useApi();
+  const { state, dispatch } = useBlog()
+  const { serverApi } = useApi()
 
   useEffect(() => {
-    dispatch({ type: BlogActions.blogs.DATA_FETCHING });
+    dispatch({ type: BlogActions.blogs.DATA_FETCHING })
     const fetchBlogs = async () => {
       try {
-        const response = await serverApi.get(`${localhostApi}/blogs`);
+        const response = await serverApi.get(`${localhostApi}/blogs?page=1`)
         if (response.status === 200) {
           dispatch({
             type: BlogActions.blogs.DATA_FETCHED,
             data: response.data,
-          });
+          })
         }
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching blogs...', error)
         dispatch({
           type: BlogActions.blogs.DATA_FETCH_ERROR,
           error: error.message,
-        });
+        })
       }
-    };
+    }
 
-    fetchBlogs();
-  }, [serverApi, dispatch]);
+    fetchBlogs()
+  }, [serverApi, dispatch])
 
   return (
     <>
@@ -47,5 +47,5 @@ export default function HomePage() {
         </section>
       </main>
     </>
-  );
+  )
 }

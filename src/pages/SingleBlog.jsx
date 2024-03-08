@@ -1,32 +1,37 @@
-import { useEffect, useState } from 'react'
-import { localhostApi } from '../api'
-import BlogDetails from '../components/singleBlog/BlogDetails'
-import { useApi, useBlog } from '../hooks'
+import { useEffect } from 'react'
+import { serverApi } from '../api'
+import BlogDetails from '../components/blog/singleBlog/BlogDetails'
+import { useSingleBlog } from '../hooks'
+import { SingleBlogActions } from '../reducers/singleBlogReducer/SingleBlogActions'
 
 export default function SingleBlog() {
-  const [getSingleBlog, setGetSingleBlog] = useState({})
-  const { state } = useBlog()
-  const { serverApi } = useApi()
-  const blogs = state?.blogs
-
-  console.log(getSingleBlog)
+  const { dispatch, blogId } = useSingleBlog()
 
   useEffect(() => {
+    dispatch({
+      type: SingleBlogActions.blog.DATA_FETCHING,
+    })
+
     const fetchSingleBlog = async () => {
       try {
-        const response = await serverApi.get(
-          `${localhostApi}/blogs/${state?.blogs?.id}`
-        )
+        const response = await serverApi.get(`/blogs/${blogId}`)
         if (response.status === 200) {
-          setGetSingleBlog(response.data)
+          dispatch({
+            type: SingleBlogActions.blog.DATA_FETCHED,
+            data: response.data,
+          })
         }
       } catch (error) {
         console.error(error)
+        dispatch({
+          type: SingleBlogActions.blog.DATA_FETCH_ERROR,
+          error: error.message,
+        })
       }
     }
 
     fetchSingleBlog()
-  }, [])
+  }, [blogId, dispatch])
 
   return (
     <>
