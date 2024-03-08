@@ -10,20 +10,20 @@ export default function HomePage() {
   const { serverApi } = useApi();
 
   useEffect(() => {
-    dispatch({ type: BlogActions.blog.DATA_FETCHING });
+    dispatch({ type: BlogActions.blogs.DATA_FETCHING });
     const fetchBlogs = async () => {
       try {
         const response = await serverApi.get(`${localhostApi}/blogs`);
         if (response.status === 200) {
           dispatch({
-            type: BlogActions.blog.DATA_FETCHED,
+            type: BlogActions.blogs.DATA_FETCHED,
             data: response.data,
           });
         }
       } catch (error) {
         console.error(error);
         dispatch({
-          type: BlogActions.blog.DATA_FETCH_ERROR,
+          type: BlogActions.blogs.DATA_FETCH_ERROR,
           error: error.message,
         });
       }

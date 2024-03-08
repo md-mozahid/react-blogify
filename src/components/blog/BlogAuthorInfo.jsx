@@ -1,7 +1,8 @@
-import { localhostApi } from "../../api";
+import { Link } from 'react-router-dom'
+import { localhostApi } from '../../api'
 
 export default function BlogAuthorInfo({ blog }) {
-  const { avatar, firstName, lastName } = blog.author;
+  const { avatar, firstName, lastName } = blog.author
 
   return (
     <div className="flex justify-between items-center">
@@ -15,9 +16,11 @@ export default function BlogAuthorInfo({ blog }) {
         </div>
 
         <div>
-          <h5 className="text-slate-500 text-sm">
-            {firstName} {lastName}
-          </h5>
+          <Link to="/profile">
+            <h5 className="text-slate-500 text-sm">
+              {firstName} {lastName}
+            </h5>
+          </Link>
           <div className="flex items-center text-xs text-slate-700">
             <span>{blog.createAt}</span>
           </div>
@@ -27,5 +30,5 @@ export default function BlogAuthorInfo({ blog }) {
         <span>{blog.likes.length} Likes</span>
       </div>
     </div>
-  );
+  )
 }

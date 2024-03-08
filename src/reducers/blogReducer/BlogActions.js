@@ -1,5 +1,5 @@
 export const BlogActions = {
-  blog: {
+  blogs: {
     DATA_FETCHING: "BLOG_DATA_FETCHING",
     DATA_FETCHED: "BLOG_DATA_FETCHED",
     DATA_FETCH_ERROR: "BLOG_DATA_FETCH_ERROR",

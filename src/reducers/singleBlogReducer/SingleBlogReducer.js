@@ -1,4 +1,4 @@
-import { BlogActions } from "./BlogActions";
+import { SingleBlogActions } from './SingleBlogActions'
 
 const {
   DATA_FETCHING,
@@ -7,29 +7,29 @@ const {
   // BLOG_COMMENTED,
   // BLOG_DELETED,
   // BLOG_LIKED,
-} = BlogActions.blogs;
+} = SingleBlogActions.blog
 
 const initialState = {
-  blogs: [],
+  blog: {},
   loading: false,
   error: null,
-};
+}
 
-const blogReducer = (state, actions) => {
+const singleBlogReducer = (state, actions) => {
   switch (actions.type) {
     case DATA_FETCHING: {
       return {
         ...state,
         loading: true,
-      };
+      }
     }
 
     case DATA_FETCHED: {
       return {
         ...state,
         loading: false,
-        blogs: actions.data.blogs,
-      };
+        blog: actions.data,
+      }
     }
 
     case DATA_FETCH_ERROR: {
@@ -37,9 +37,12 @@ const blogReducer = (state, actions) => {
         ...state,
         loading: false,
         error: actions.error,
-      };
+      }
     }
-  }
-};
 
-export { blogReducer, initialState };
+    default:
+      return state
+  }
+}
+
+export { initialState, singleBlogReducer }
