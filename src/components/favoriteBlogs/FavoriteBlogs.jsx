@@ -3,7 +3,6 @@ import FavoriteBlog from "./FavoriteBlog";
 
 export default function FavoriteBlogs() {
   const { auth } = useAuth();
-  console.log(auth);
 
   return (
     <div className="sidebar-card">

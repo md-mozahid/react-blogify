@@ -8,7 +8,7 @@ import {
   UnderratedVideo,
 } from "../constant/images";
 
-export default function SearchModal() {
+export default function SearchModal({ onClose }) {
   return (
     <>
       {/* <!-- Search Result --> */}
@@ -126,13 +126,12 @@ export default function SearchModal() {
             </div>
           </div>
 
-          <a href="./index.html">
-            <img
-              src={CloseIcon}
-              alt="Close"
-              className="absolute right-2 top-2 cursor-pointer w-8 h-8"
-            />
-          </a>
+          <img
+            src={CloseIcon}
+            alt="Close"
+            className="absolute right-2 top-2 cursor-pointer w-8 h-8"
+            onClick={() => onClose(false)}
+          />
         </div>
       </section>
 

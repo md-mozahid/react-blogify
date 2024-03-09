@@ -1,10 +1,14 @@
-import { Link } from 'react-router-dom'
-import { Logo, SearchIcon } from '../../constant/images'
-import { useAuth } from '../../hooks/useAuth'
-import Logout from './Logout'
+import { Link } from "react-router-dom";
+import { Logo, SearchIcon } from "../../constant/images";
+import { useAuth } from "../../hooks/useAuth";
+import Logout from "./Logout";
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import SearchModal from "../../pages/SearchModal";
 
 export default function Header() {
-  const { auth } = useAuth()
+  const { auth } = useAuth();
+  const [searchModal, setSearchModal] = useState(false);
 
   return (
     <header>
@@ -19,20 +23,21 @@ export default function Header() {
             <li>
               <Link
                 to="/create-blog"
-                className="bg-indigo-600 text-white px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200">
+                className="bg-indigo-600 text-white px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200"
+              >
                 Write
               </Link>
             </li>
             {auth?.user && (
-              <li>
-                <Link
-                  to="/search"
-                  className="flex items-center gap-2 cursor-pointer">
-                  <img src={SearchIcon} alt="Search" />
-                  <span>Search</span>
-                </Link>
+              <li
+                className="flex items-center gap-2 cursor-pointer"
+                onClick={() => setSearchModal(!searchModal)}
+              >
+                <img src={SearchIcon} alt="Search" />
+                <span>Search</span>
               </li>
             )}
+            {searchModal && createPortal(<SearchModal onClose={setSearchModal} />, document.body)}
 
             <li>
               {auth?.user ? (
@@ -40,7 +45,8 @@ export default function Header() {
               ) : (
                 <Link
                   to="/login"
-                  className="text-white/50 hover:text-white transition-all duration-200">
+                  className="text-white/50 hover:text-white transition-all duration-200"
+                >
                   Login
                 </Link>
               )}
@@ -63,5 +69,5 @@ export default function Header() {
         </div>
       </nav>
     </header>
-  )
+  );
 }
