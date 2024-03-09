@@ -1,11 +1,10 @@
-import { localhostApi } from '../../../api'
-import { useSingleBlog } from '../../../hooks'
-import { formateDate } from '../../../utils/getDate'
-import BlogComment from './BlogComment'
+import { localhostApi } from "../../../api";
+import { useSingleBlog } from "../../../hooks";
+import { formateDate } from "../../../utils/getDate";
+import BlogComment from "./BlogComment";
 
 export default function BlogDetails() {
-  const { state } = useSingleBlog()
-
+  const { state } = useSingleBlog();
 
   return (
     <section>
@@ -37,7 +36,7 @@ export default function BlogDetails() {
 
         {/* <!-- Tags --> */}
         <ul className="tags">
-          {state?.blog?.tags?.split(', ').map((tag) => (
+          {state?.blog?.tags?.split(", ").map((tag) => (
             <li key={tag}> {tag}</li>
           ))}
         </ul>
@@ -49,5 +48,5 @@ export default function BlogDetails() {
       </div>
       <BlogComment state={state} />
     </section>
-  )
+  );
 }

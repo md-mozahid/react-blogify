@@ -12,8 +12,9 @@ import DeleteIcon from "../assets/icons/delete.svg";
 import SearchIcon from "../assets/icons/search.svg";
 import CloseIcon from "../assets/icons/close.svg";
 import LikeIcon from "../assets/icons/like.svg";
+import LikeFilledIcon from "../assets/icons/like-filled.svg";
 import HeartIcon from "../assets/icons/heart.svg";
-import HeartFilled from "../assets/icons/heart-filled.svg";
+import HeartFilledIcon from "../assets/icons/heart-filled.svg";
 import Comment from "../assets/icons/comment.svg";
 import CheckIcon from "../assets/icons/check.svg";
 
@@ -29,7 +30,8 @@ export {
   CloseIcon,
   LikeIcon,
   HeartIcon,
-  HeartFilled,
   Comment,
-  CheckIcon
+  CheckIcon,
+  LikeFilledIcon,
+  HeartFilledIcon
 };
