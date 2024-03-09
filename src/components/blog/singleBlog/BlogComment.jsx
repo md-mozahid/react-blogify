@@ -3,7 +3,7 @@ import { useAuth } from "../../../hooks";
 import BlogCommentList from "./BlogCommentList";
 import FloatingActions from "./FloatingActions";
 
-export default function BlogComment({ state }) {
+export default function BlogComment({ blog }) {
   const { auth } = useAuth();
 
   return (
@@ -11,7 +11,7 @@ export default function BlogComment({ state }) {
       <section id="comments">
         <div className="mx-auto w-full md:w-10/12 container">
           <h2 className="text-3xl font-bold my-8">
-            Comments ({state?.blog?.comments?.length ?? 0})
+            Comments ({blog?.comments?.length ?? 0})
           </h2>
           <div className="flex items space-x-4">
             <div className="avater-img bg-indigo-600 text-white">
@@ -33,10 +33,10 @@ export default function BlogComment({ state }) {
               </div>
             </div>
           </div>
-          {state?.blog?.comments?.map((comment) => (
+          {blog?.comments?.map((comment) => (
             <BlogCommentList key={comment?.id} comment={comment} />
           ))}
-          <FloatingActions state={state} />
+          <FloatingActions blog={blog} />
         </div>
       </section>
     </>
