@@ -7,5 +7,6 @@ export const BlogActions = {
     BLOG_DELETED: "BLOG_DATA_DELETED",
     BLOG_LIKED: "BLOG_LIKED",
     BLOG_COMMENTED: "BLOG_COMMENTED",
+    BLOG_SEARCH: "BLOG_SEARCH",
   },
 };

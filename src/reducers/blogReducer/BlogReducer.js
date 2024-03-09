@@ -4,6 +4,7 @@ const {
   DATA_FETCHING,
   DATA_FETCHED,
   DATA_FETCH_ERROR,
+  BLOG_SEARCH,
   // BLOG_COMMENTED,
   // BLOG_DELETED,
   // BLOG_LIKED,
@@ -13,6 +14,7 @@ const initialState = {
   blogs: [],
   loading: false,
   error: null,
+  search: "",
 };
 
 const blogReducer = (state, actions) => {
@@ -37,6 +39,13 @@ const blogReducer = (state, actions) => {
         ...state,
         loading: false,
         error: actions.error,
+      };
+    }
+
+    case BLOG_SEARCH: {
+      return {
+        ...state,
+        search: actions.data,
       };
     }
   }
