@@ -1,16 +1,42 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { localhostApi } from "../../../api";
-import { useAuth } from "../../../hooks";
+import { useApi, useAuth, useSingleBlog } from "../../../hooks";
 import BlogCommentList from "./BlogCommentList";
 import FloatingActions from "./FloatingActions";
+import { actions } from "../../../actions";
 
 export default function BlogComment({ blog }) {
-  const [newComment, setNewComment] = useState("");
+  const [comments, setComments] = useState(blog?.comments);
   const { auth } = useAuth();
+  const { serverApi } = useApi();
+  const { state, dispatch } = useSingleBlog();
 
-  const handleComment = () => {};
+  const handleAddComment = async (e) => {
+    e.preventDefault();
+    dispatch({ type: actions.blog.DATA_FETCHING });
 
-  useEffect(() => {}, []);
+    try {
+      const response = await serverApi.post(
+        `${localhostApi}/blogs/${state?.blog?.id}/comment`,
+        { content: comments }
+      );
+      console.log(response.data);
+      if (response.status === 200) {
+        dispatch({
+          type: actions.blog.BLOG_COMMENTED,
+          data: actions.data,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch({
+        type: actions.blog.BLOG_COMMENTED_ERROR,
+        error: error.message,
+      });
+    } finally {
+      setComments("");
+    }
+  };
 
   return (
     <>
@@ -19,6 +45,7 @@ export default function BlogComment({ blog }) {
           <h2 className="text-3xl font-bold my-8">
             Comments ({blog?.comments?.length ?? 0})
           </h2>
+
           <div className="flex items space-x-4">
             <div className="avater-img bg-indigo-600 text-white">
               <img
@@ -27,22 +54,23 @@ export default function BlogComment({ blog }) {
                 alt="avatar"
               />
             </div>
-            <div className="w-full">
+
+            <form className="w-full" onSubmit={handleAddComment}>
               <textarea
                 className="w-full bg-[#030317] border border-slate-500 text-slate-300 p-4 rounded-md focus:outline-none"
                 placeholder="Write a comment"
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
+                value={comments}
+                onChange={(e) => setComments(e.target.value)}
               ></textarea>
               <div className="flex justify-end mt-4">
                 <button
                   className="bg-indigo-600 text-white px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200"
-                  onClick={handleComment}
+                  type="submit"
                 >
                   Comment
                 </button>
               </div>
-            </div>
+            </form>
           </div>
           {blog?.comments?.map((comment) => (
             <BlogCommentList key={comment?.id} comment={comment} />
