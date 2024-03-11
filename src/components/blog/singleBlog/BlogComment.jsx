@@ -1,10 +1,16 @@
+import { useEffect, useState } from "react";
 import { localhostApi } from "../../../api";
 import { useAuth } from "../../../hooks";
 import BlogCommentList from "./BlogCommentList";
 import FloatingActions from "./FloatingActions";
 
 export default function BlogComment({ blog }) {
+  const [newComment, setNewComment] = useState("");
   const { auth } = useAuth();
+
+  const handleComment = () => {};
+
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -25,9 +31,14 @@ export default function BlogComment({ blog }) {
               <textarea
                 className="w-full bg-[#030317] border border-slate-500 text-slate-300 p-4 rounded-md focus:outline-none"
                 placeholder="Write a comment"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
               ></textarea>
               <div className="flex justify-end mt-4">
-                <button className="bg-indigo-600 text-white px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200">
+                <button
+                  className="bg-indigo-600 text-white px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200"
+                  onClick={handleComment}
+                >
                   Comment
                 </button>
               </div>

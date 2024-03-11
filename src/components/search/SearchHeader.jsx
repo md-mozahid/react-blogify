@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useBlog } from "../../hooks";
-import { BlogActions } from "../../reducers/blogReducer/BlogActions";
+import { actions } from "../../actions";
 
 export default function SearchHeader({ search, onSearch }) {
   const { dispatch } = useBlog();
 
   useEffect(() => {
     dispatch({
-      type: BlogActions.blogs.BLOG_SEARCH,
+      type: actions.blogs.BLOG_SEARCH,
       data: search,
     });
   }, [dispatch, search]);

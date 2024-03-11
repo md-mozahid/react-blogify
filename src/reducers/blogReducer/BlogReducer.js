@@ -1,4 +1,4 @@
-import { BlogActions } from "./BlogActions";
+import { actions } from "../../actions";
 
 const {
   DATA_FETCHING,
@@ -8,7 +8,7 @@ const {
   // BLOG_COMMENTED,
   // BLOG_DELETED,
   // BLOG_LIKED,
-} = BlogActions.blogs;
+} = actions.blogs;
 
 const initialState = {
   blogs: [],

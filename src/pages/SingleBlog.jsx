@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { serverApi } from "../api";
 import BlogDetails from "../components/blog/singleBlog/BlogDetails";
 import { useSingleBlog } from "../hooks";
-import { SingleBlogActions } from "../reducers/singleBlogReducer/SingleBlogActions";
+import { actions } from "../actions";
 
 export default function SingleBlog() {
   const { state, dispatch, blogId } = useSingleBlog();
@@ -10,7 +10,7 @@ export default function SingleBlog() {
 
   useEffect(() => {
     dispatch({
-      type: SingleBlogActions.blog.DATA_FETCHING,
+      type: actions.blog.DATA_FETCHING,
     });
 
     const fetchSingleBlog = async () => {
@@ -18,14 +18,14 @@ export default function SingleBlog() {
         const response = await serverApi.get(`/blogs/${blogId}`);
         if (response.status === 200) {
           dispatch({
-            type: SingleBlogActions.blog.DATA_FETCHED,
+            type: actions.blog.DATA_FETCHED,
             data: response.data,
           });
         }
       } catch (error) {
         console.error(error);
         dispatch({
-          type: SingleBlogActions.blog.DATA_FETCH_ERROR,
+          type: actions.blog.DATA_FETCH_ERROR,
           error: error.message,
         });
       }

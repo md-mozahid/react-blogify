@@ -1,41 +1,41 @@
-import { useState } from 'react'
-import { CheckIcon, EditIcon } from '../../constant/images'
-import { useApi } from '../../hooks/useApi'
-import { useProfile } from '../../hooks/useProfile'
-import { ProfileActions } from '../../reducers/profileReducer/ProfileActions'
-import { localhostApi } from '../../api'
+import { useState } from "react";
+import { CheckIcon, EditIcon } from "../../constant/images";
+import { useApi } from "../../hooks/useApi";
+import { useProfile } from "../../hooks/useProfile";
+import { localhostApi } from "../../api";
+import { actions } from "../../actions";
 
 export default function Bio() {
-  const { state, dispatch } = useProfile()
-  const { serverApi } = useApi()
+  const { state, dispatch } = useProfile();
+  const { serverApi } = useApi();
   // console.log(state)
 
-  const [bio, setBio] = useState(state?.user?.bio)
-  const [editMode, setEditMode] = useState(false)
+  const [bio, setBio] = useState(state?.user?.bio);
+  const [editMode, setEditMode] = useState(false);
 
   const handleBioEdit = async () => {
-    dispatch({ type: ProfileActions.profile.DATA_FETCHING })
+    dispatch({ type: actions.profile.DATA_FETCHING });
 
     try {
       const response = await serverApi.patch(
         `${localhostApi}/profile/${state?.user?.id}`,
         { bio }
-      )
+      );
 
       if (response.status === 200) {
         dispatch({
-          type: ProfileActions.profile.USER_DATA_EDITED,
+          type: actions.profile.USER_DATA_EDITED,
           data: response.data,
-        })
+        });
       }
-      setEditMode(false)
+      setEditMode(false);
     } catch (error) {
       dispatch({
-        type: ProfileActions.profile.DATA_FETCH_ERROR,
+        type: actions.profile.DATA_FETCH_ERROR,
         error: error.message,
-      })
+      });
     }
-  }
+  };
 
   return (
     <div className="mt-4 flex items-start gap-2 lg:mt-6">
@@ -58,16 +58,18 @@ export default function Bio() {
       {!editMode ? (
         <button
           className="flex-center h-7 w-7 rounded-full"
-          onClick={() => setEditMode(true)}>
+          onClick={() => setEditMode(true)}
+        >
           <img src={EditIcon} alt="Edit" />
         </button>
       ) : (
         <button
           className="flex-center h-7 w-7 rounded-full"
-          onClick={handleBioEdit}>
+          onClick={handleBioEdit}
+        >
           <img src={CheckIcon} alt="Check" />
         </button>
       )}
     </div>
-  )
+  );
 }
