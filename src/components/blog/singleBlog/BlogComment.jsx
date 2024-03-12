@@ -4,37 +4,40 @@ import { useApi, useAuth, useSingleBlog } from "../../../hooks";
 import BlogCommentList from "./BlogCommentList";
 import FloatingActions from "./FloatingActions";
 import { actions } from "../../../actions";
+import { toast } from "react-toastify";
 
 export default function BlogComment({ blog }) {
   const [comments, setComments] = useState(blog?.comments);
   const { auth } = useAuth();
   const { serverApi } = useApi();
-  const { state, dispatch } = useSingleBlog();
+  const { dispatch } = useSingleBlog();
+  const user = auth?.user;
 
   const handleAddComment = async (e) => {
     e.preventDefault();
     dispatch({ type: actions.blog.DATA_FETCHING });
 
-    try {
-      const response = await serverApi.post(
-        `${localhostApi}/blogs/${state?.blog?.id}/comment`,
-        { content: comments }
-      );
-      console.log(response.data);
-      if (response.status === 200) {
+    if (auth?.authToken) {
+      try {
+        const response = await serverApi.post(
+          `${localhostApi}/blogs/${blog?.id}/comment`,
+          { content: comments }
+        );
+        if (response.status === 200) {
+          dispatch({
+            type: actions.blog.BLOG_COMMENTED,
+            data: response.data,
+          });
+        }
+      } catch (error) {
+        console.error(error);
         dispatch({
-          type: actions.blog.BLOG_COMMENTED,
-          data: actions.data,
+          type: actions.blog.BLOG_COMMENTED_ERROR,
+          error: error.message,
         });
       }
-    } catch (error) {
-      console.error(error);
-      dispatch({
-        type: actions.blog.BLOG_COMMENTED_ERROR,
-        error: error.message,
-      });
-    } finally {
-      setComments("");
+    } else {
+      toast.warn("Please, need login for commenting!");
     }
   };
 
@@ -48,11 +51,15 @@ export default function BlogComment({ blog }) {
 
           <div className="flex items space-x-4">
             <div className="avater-img bg-indigo-600 text-white">
-              <img
-                className="rounded-full"
-                src={`${localhostApi}/uploads/avatar/${auth?.user?.avatar}`}
-                alt="avatar"
-              />
+              {user ? (
+                <img
+                  className="rounded-full"
+                  src={`${localhostApi}/uploads/avatar/${user?.avatar}`}
+                  alt="avatar"
+                />
+              ) : (
+                <span>Guest</span>
+              )}
             </div>
 
             <form className="w-full" onSubmit={handleAddComment}>

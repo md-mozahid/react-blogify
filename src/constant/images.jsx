@@ -15,7 +15,7 @@ import LikeIcon from "../assets/icons/like.svg";
 import LikeFilledIcon from "../assets/icons/like-filled.svg";
 import HeartIcon from "../assets/icons/heart.svg";
 import HeartFilledIcon from "../assets/icons/heart-filled.svg";
-import Comment from "../assets/icons/comment.svg";
+import CommentIcon from "../assets/icons/comment.svg";
 import CheckIcon from "../assets/icons/check.svg";
 
 export {
@@ -30,7 +30,7 @@ export {
   CloseIcon,
   LikeIcon,
   HeartIcon,
-  Comment,
+  CommentIcon,
   CheckIcon,
   LikeFilledIcon,
   HeartFilledIcon

@@ -6,8 +6,9 @@ const {
   DATA_FETCH_ERROR,
   BLOG_COMMENTED,
   BLOG_COMMENTED_ERROR,
-  // BLOG_DELETED,
-  // BLOG_LIKED,
+  BLOG_DELETED,
+  BLOG_LIKED,
+  BLOG_FAVORITE
 } = actions.blog;
 
 const initialState = {
@@ -53,6 +54,36 @@ const singleBlogReducer = (state, actions) => {
     }
 
     case BLOG_COMMENTED_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        error: actions.error,
+      };
+    }
+
+    case BLOG_LIKED: {
+      return {
+        ...state,
+        loading: true,
+        blog: {
+          ...state.blog,
+          likes: actions.data.likes,
+        },
+      };
+    }
+    
+    case BLOG_FAVORITE: {
+      return {
+        ...state,
+        loading: true,
+        blog: {
+          ...state.blog,
+          isFavorite: actions.data.isFavorite,
+        },
+      };
+    }
+
+    case BLOG_DELETED: {
       return {
         ...state,
         loading: false,

@@ -1,34 +1,65 @@
-import { useState } from "react";
 import {
   HeartIcon,
   HeartFilledIcon,
   LikeIcon,
-  Comment,
+  CommentIcon,
   LikeFilledIcon,
 } from "../../../constant/images";
-import { useAuth } from "../../../hooks";
-import { useApi } from "../../../hooks";
+import { useApi, useAuth, useSingleBlog } from "../../../hooks";
 import { localhostApi } from "../../../api";
+import { actions } from "../../../actions";
+import { toast } from "react-toastify";
 
 export default function FloatingActions({ blog }) {
   // console.log(blog);
   const { auth } = useAuth();
   const { serverApi } = useApi();
-  const [isLike, setIsLike] = useState(blog?.likes?.includes(auth?.user?.id));
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { dispatch } = useSingleBlog();
+
+  const isLike = blog?.likes?.includes(auth?.user?.id);
 
   // handle likes
   const handleLike = async () => {
-    try {
-      const response = await serverApi.patch(
-        `${localhostApi}/blogs/${blog.id}/like`
-      );
-      if (response.status === 200) {
-        setIsLike(true);
+    if (auth?.authToken) {
+      try {
+        const response = await serverApi.post(
+          `${localhostApi}/blogs/${blog?.id}/like`
+        );
+        if (response.status === 200) {
+          dispatch({
+            type: actions.blog.BLOG_LIKED,
+            data: response.data,
+          });
+          // setIsLike(true);
+        }
+      } catch (error) {
+        console.error(error);
+        // setIsLike(false);
       }
-    } catch (error) {
-      console.error(error);
-      setIsLike(false);
+    } else {
+      toast.warn("Need to login first...");
+    }
+  };
+
+  // handle favorite
+  const handleFavorite = () => {
+    if (auth?.authToken) {
+      try {
+        const response = serverApi.patch(
+          `${localhostApi}/blogs/${blog?.id}/favourite`
+        );
+        console.log(response.data);
+        if (response.status === 200) {
+          dispatch({
+            type: actions.blog.BLOG_FAVORITE,
+            data: response.data,
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      toast.error("Need login for favorite!");
     }
   };
 
@@ -39,12 +70,15 @@ export default function FloatingActions({ blog }) {
           <img src={isLike ? LikeFilledIcon : LikeIcon} alt="like" />
           <span>{blog?.likes?.length ?? 0}</span>
         </li>
-        <li onClick={() => setIsFavorite(!isFavorite)}>
-          <img src={isFavorite ? HeartFilledIcon : HeartIcon} alt="favorite" />
+        <li onClick={handleFavorite}>
+          <img
+            src={blog?.isFavorite ? HeartFilledIcon : HeartIcon}
+            alt="favorite"
+          />
         </li>
         <a href="#comments">
           <li>
-            <img src={Comment} alt="Comments" />
+            <img src={CommentIcon} alt="comments" />
             <span>{blog?.comments?.length ?? 0}</span>
           </li>
         </a>
