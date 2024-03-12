@@ -1,16 +1,19 @@
-import { useReducer } from "react";
-import { ProfileContext } from "../context";
+import { useReducer, useState } from 'react'
+import { ProfileContext } from '../context'
+import { useAuth } from '../hooks'
 import {
-  profileReducer,
   initialState,
-} from "../reducers/profileReducer/ProfileReducer";
+  profileReducer,
+} from '../reducers/profileReducer/ProfileReducer'
 
 export default function ProfileProvider({ children }) {
-  const [state, dispatch] = useReducer(profileReducer, initialState);
+  const { auth } = useAuth()
+  const [state, dispatch] = useReducer(profileReducer, initialState)
+  const [author, setAuthor] = useState(auth?.user?.id)
 
   return (
-    <ProfileContext.Provider value={{ state, dispatch }}>
+    <ProfileContext.Provider value={{ state, dispatch, author, setAuthor }}>
       {children}
     </ProfileContext.Provider>
-  );
+  )
 }

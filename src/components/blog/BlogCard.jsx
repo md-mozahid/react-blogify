@@ -13,6 +13,8 @@ export default function BlogCard({ blog }) {
     setBlogId(blogId)
     navigate('/single-blog')
   }
+
+  const showBlogAction = auth?.user?.id === blog?.author?.id
   return (
     <>
       <div className="my-6 space-y-4">
@@ -35,7 +37,7 @@ export default function BlogCard({ blog }) {
               {blog?.content}
             </p>
             <BlogAuthorInfo blog={blog} />
-            {auth?.user && <BlogHeader />}
+            {showBlogAction && <BlogHeader />}
           </div>
         </div>
       </div>

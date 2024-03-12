@@ -56,7 +56,7 @@ export default function Header() {
                 <li className="flex items-center">
                   <div className="avater-img bg-orange-600 text-white">
                     <span className="uppercase">
-                      {auth?.user?.firstName.slice(0, 1)}
+                      {auth?.user?.firstName?.charAt(0)}
                     </span>
                   </div>
                   <span className="text-white ml-2">

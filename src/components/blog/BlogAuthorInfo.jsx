@@ -1,20 +1,9 @@
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { localhostApi } from '../../api'
-import { useAuth } from '../../hooks'
+import { useProfile } from '../../hooks'
 
 export default function BlogAuthorInfo({ blog }) {
-  const { auth } = useAuth()
-  const navigate = useNavigate()
-
-  // if user available, navigate to profile page
-  // otherwise navigate to login page
-  const authorProfile = (user) => {
-    if (user) {
-      navigate('/profile')
-    } else {
-      navigate('/login')
-    }
-  }
+  const { setAuthor } = useProfile()
 
   return (
     <div className="flex justify-between items-center">
@@ -28,13 +17,16 @@ export default function BlogAuthorInfo({ blog }) {
         </div>
 
         <div>
-          {/* <Link to="/profile"> */}
-          <h5
-            className="text-slate-500 text-sm"
-            onClick={() => authorProfile(auth?.user)}>
-            {blog?.author?.firstName} {blog?.author?.lastName}
+          <h5 className="text-slate-500 text-sm">
+            <Link
+              to="/profile"
+              onClick={(e) => {
+                e.stopPropagation()
+                setAuthor(blog?.author?.id)
+              }}>
+              {blog?.author?.firstName} {blog?.author?.lastName}
+            </Link>
           </h5>
-          {/* </Link> */}
           <div className="flex items-center text-xs text-slate-700">
             <span>{blog?.createAt}</span>
           </div>
