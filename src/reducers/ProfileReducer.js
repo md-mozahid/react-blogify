@@ -1,23 +1,22 @@
-import { actions } from "../../actions";
+import { actions } from "../actions";
 
 const {
   DATA_FETCHING,
   DATA_FETCHED,
   DATA_FETCH_ERROR,
-  BLOG_COMMENTED,
-  BLOG_COMMENTED_ERROR,
-  // BLOG_DELETED,
-  // BLOG_LIKED,
-} = actions.blog;
+  IMAGE_UPDATED,
+  USER_DATA_EDITED,
+} = actions.profile;
 
 const initialState = {
-  blog: [],
+  user: null,
+  blogs: [],
   loading: false,
   error: null,
 };
 
-const singleBlogReducer = (state, actions) => {
-  switch (actions.type) {
+const profileReducer = (state, action) => {
+  switch (action.type) {
     case DATA_FETCHING: {
       return {
         ...state,
@@ -29,7 +28,8 @@ const singleBlogReducer = (state, actions) => {
       return {
         ...state,
         loading: false,
-        blog: actions.data,
+        user: action.data,
+        blogs: action.data.blogs,
       };
     }
 
@@ -37,26 +37,26 @@ const singleBlogReducer = (state, actions) => {
       return {
         ...state,
         loading: false,
-        error: actions.error,
+        error: action.error,
       };
     }
 
-    case BLOG_COMMENTED: {
-      return {
-        ...state,
-        loading: true,
-        blog: {
-          ...state.blog,
-          comments: actions.data.comments,
-        },
-      };
-    }
-
-    case BLOG_COMMENTED_ERROR: {
+    case USER_DATA_EDITED: {
       return {
         ...state,
         loading: false,
-        error: actions.error,
+        user: action.data,
+      };
+    }
+
+    case IMAGE_UPDATED: {
+      return {
+        ...state,
+        loading: false,
+        user: {
+          ...state.user,
+          avatar: action.data.avatar,
+        },
       };
     }
 
@@ -65,4 +65,4 @@ const singleBlogReducer = (state, actions) => {
   }
 };
 
-export { initialState, singleBlogReducer };
+export { initialState, profileReducer };

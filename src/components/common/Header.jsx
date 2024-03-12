@@ -1,23 +1,26 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Logo, SearchIcon } from "../../constant/images";
 import { useAuth } from "../../hooks/useAuth";
 import Logout from "./Logout";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import SearchModal from "../../pages/SearchModal";
+import { localhostApi } from "../../api";
+import { useProfile } from "../../hooks";
 
 export default function Header() {
   const { auth } = useAuth();
+  const { setAuthor } = useProfile();
+  const navigate = useNavigate();
   const [searchModal, setSearchModal] = useState(false);
+  const user = auth?.user;
 
   return (
     <header>
       <nav className="container">
-        <div>
-          <Link to="/">
-            <img className="w-32" src={Logo} alt="lws" />
-          </Link>
-        </div>
+        <Link to="/">
+          <img className="w-32" src={Logo} alt="lws" />
+        </Link>
         <div>
           <ul className="flex items-center space-x-5">
             <li>
@@ -37,7 +40,11 @@ export default function Header() {
                 <span>Search</span>
               </li>
             )}
-            {searchModal && createPortal(<SearchModal onClose={setSearchModal} />, document.body)}
+            {searchModal &&
+              createPortal(
+                <SearchModal onClose={setSearchModal} />,
+                document.body
+              )}
 
             <li>
               {auth?.user ? (
@@ -51,20 +58,35 @@ export default function Header() {
                 </Link>
               )}
             </li>
-            {auth?.user && (
-              <Link to="/profile">
-                <li className="flex items-center">
+
+            <li
+              className="flex items-center cursor-pointer"
+              onClick={() => {
+                setAuthor(user?.id);
+                navigate("/profile");
+              }}
+            >
+              {user && user?.avatar ? (
+                <div>
+                  <img
+                    src={`${localhostApi}/uploads/avatar/${user?.avatar}`}
+                    alt="avatar"
+                    className="rounded-full w-10"
+                  />
+                </div>
+              ) : (
+                user && (
                   <div className="avater-img bg-orange-600 text-white">
                     <span className="uppercase">
-                      {auth?.user?.firstName?.charAt(0)}
+                      {user?.firstName?.charAt(0)}
                     </span>
                   </div>
-                  <span className="text-white ml-2">
-                    {auth?.user?.firstName} {auth?.user?.lastName}
-                  </span>
-                </li>
-              </Link>
-            )}
+                )
+              )}
+              <span className="text-white ml-2">
+                {user?.firstName} {auth?.user?.lastName}
+              </span>
+            </li>
           </ul>
         </div>
       </nav>

@@ -1,14 +1,14 @@
-import { useAuth } from '../../hooks'
-import { useProfile } from '../../hooks/useProfile'
-import Bio from './Bio'
-import ProfileImg from './ProfileImg'
+import { useAuth } from "../../hooks";
+import { useProfile } from "../../hooks/useProfile";
+import Bio from "./Bio";
+import ProfileImg from "./ProfileImg";
 
 export default function ProfileInfo() {
-  const { auth } = useAuth()
-  const { state } = useProfile()
+  const { auth } = useAuth();
+  const { state } = useProfile();
 
-  const user = auth?.user ?? state?.user
-  const isLoggedInUser = auth?.user?.id === state?.user?.id
+  const user = state?.user ?? auth?.user;
+  const isLoggedInUser = state?.user?.id === auth?.user?.id;
 
   return (
     <>
@@ -24,5 +24,5 @@ export default function ProfileInfo() {
         <div className="w-3/4 border-b border-[#3F3F3F] py-6 lg:py-8"></div>
       </div>
     </>
-  )
+  );
 }

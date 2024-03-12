@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { blogReducer, initialState } from "../reducers/blogReducer/BlogReducer";
+import { blogReducer, initialState } from "../reducers/BlogReducer";
 import { BlogContext } from "../context";
 
 export default function BlogProvider({ children }) {
