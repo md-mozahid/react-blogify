@@ -1,78 +1,103 @@
+import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
+import { actions } from '../../../actions'
+import { localhostApi } from '../../../api'
 import {
-  HeartIcon,
-  HeartFilledIcon,
-  LikeIcon,
   CommentIcon,
+  HeartFilledIcon,
+  HeartIcon,
   LikeFilledIcon,
-} from "../../../constant/images";
-import { useApi, useAuth, useSingleBlog } from "../../../hooks";
-import { localhostApi } from "../../../api";
-import { actions } from "../../../actions";
-import { toast } from "react-toastify";
+  LikeIcon,
+} from '../../../constant/images'
+import { useApi, useAuth, useSingleBlog } from '../../../hooks'
+import useFavorite from '../../../hooks/useFavorite'
 
 export default function FloatingActions({ blog }) {
-  // console.log(blog);
-  const { auth } = useAuth();
-  const { serverApi } = useApi();
-  const { dispatch } = useSingleBlog();
-
-  const isLike = blog?.likes?.includes(auth?.user?.id);
+  const { auth } = useAuth()
+  const { serverApi } = useApi()
+  const { dispatch } = useSingleBlog()
+  const [like, setLike] = useState(
+    blog?.likes?.some((l) => l.id === auth?.user?.id)
+  )
+  const { favoriteBlogs } = useFavorite()
+  const [isFav, setIsFav] = useState(false)
 
   // handle likes
   const handleLike = async () => {
-    if (auth?.authToken) {
-      try {
-        const response = await serverApi.post(
-          `${localhostApi}/blogs/${blog?.id}/like`
-        );
-        if (response.status === 200) {
+    if (!auth?.user) {
+      toast.error('Please login to like the blog!')
+    }
+
+    try {
+      const response = await serverApi.post(
+        `${localhostApi}/blogs/${blog?.id}/like`
+      )
+      if (response.status === 200) {
+        if (response?.data?.isLiked) {
           dispatch({
             type: actions.blog.BLOG_LIKED,
             data: response.data,
-          });
-          // setIsLike(true);
+          })
+          setLike(true)
+        } else {
+          setLike(false)
         }
-      } catch (error) {
-        console.error(error);
-        // setIsLike(false);
       }
-    } else {
-      toast.warn("Need to login first...");
+    } catch (error) {
+      if (error && error.response.status === 403) {
+        toast.error(error.message)
+      } else {
+        toast.error('An error ocurred in like!')
+      }
     }
-  };
+  }
 
   // handle favorite
-  const handleFavorite = () => {
-    if (auth?.authToken) {
-      try {
-        const response = serverApi.patch(
-          `${localhostApi}/blogs/${blog?.id}/favourite`
-        );
-        console.log(response.data);
-        if (response.status === 200) {
-          dispatch({
-            type: actions.blog.BLOG_FAVORITE,
-            data: response.data,
-          });
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      toast.error("Need login for favorite!");
+  useEffect(() => {
+    const isFavorite = favoriteBlogs?.some((fav) => fav.id === blog?.id)
+    setIsFav(isFavorite)
+  }, [blog?.id, favoriteBlogs])
+
+  const handleFavorite =async () => {
+    if (!auth?.user) {
+      toast.error('Please login to favorite the blog!')
     }
-  };
+
+    try {
+      const response =await serverApi.patch(
+        `${localhostApi}/blogs/${blog?.id}/favourite`
+      )
+
+      if (response.status === 200) {
+        if (response.data?.isFavourite) {
+          // dispatch({
+          //   type: actions.blog.BLOG_FAVORITE,
+          //   data: response.data,
+          // })
+          setIsFav(true)
+        } else {
+          setIsFav(false)
+        }
+      }
+    } catch (error) {
+      if (error && error.response.status === 403) {
+        toast.error(error.message)
+      } else {
+        toast.error('An error ocurred in favorite blog!')
+      }
+    }
+  }
 
   return (
     <div className="floating-action">
       <ul className="floating-action-menus">
         <li onClick={handleLike}>
-          <img src={isLike ? LikeFilledIcon : LikeIcon} alt="like" />
+          <img src={like ? LikeFilledIcon : LikeIcon} alt="like" />
           <span>{blog?.likes?.length ?? 0}</span>
         </li>
         <li onClick={handleFavorite}>
           <img
-            src={blog?.isFavorite ? HeartFilledIcon : HeartIcon}
+            src={isFav ? HeartFilledIcon : HeartIcon}
             alt="favorite"
           />
         </li>
@@ -84,5 +109,5 @@ export default function FloatingActions({ blog }) {
         </a>
       </ul>
     </div>
-  );
+  )
 }

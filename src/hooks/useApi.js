@@ -38,12 +38,12 @@ export const useApi = () => {
                 refreshToken,
               }
             )
-            const { accessToken } = response.data
-            console.log(`New token: ${accessToken}`)
-            setAuth({ ...auth, authToken: accessToken })
+            const { token } = response.data
+            console.log(`New token: ${token}`)
+            setAuth({ ...auth, authToken: token })
 
             // Retry the original request with the new token
-            originalRequest.headers.Authorization = `Bearer ${accessToken}`
+            originalRequest.headers.Authorization = `Bearer ${token}`
             return axios(originalRequest)
           } catch (error) {
             console.error(error)

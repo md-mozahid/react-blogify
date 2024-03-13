@@ -1,8 +1,13 @@
-import { localhostApi } from "../../../api";
-import { formateDate } from "../../../utils/getDate";
-import BlogComment from "./BlogComment";
+import DOMPurify from 'dompurify'
+import { Link } from 'react-router-dom'
+import { localhostApi } from '../../../api'
+import { useProfile } from '../../../hooks'
+import { formateDate } from '../../../utils/getDate'
+import BlogComment from './BlogComment'
 
 export default function BlogDetails({ blog }) {
+  const { setAuthor } = useProfile()
+
   return (
     <section>
       <div className="container text-center py-8">
@@ -10,11 +15,18 @@ export default function BlogDetails({ blog }) {
         <div className="flex justify-center items-center my-4 gap-4">
           <div className="flex items-center capitalize space-x-2">
             <div className="avater-img bg-indigo-600 text-white">
-              <span className="">{blog?.author?.firstName.slice(0, 1)}</span>
+              <span className="">{blog?.author?.firstName?.charAt(0)}</span>
             </div>
-            <h5 className="text-slate-500 text-sm">
-              {blog?.author?.firstName} {blog?.author?.lastName}
-            </h5>
+            <Link
+              to="/profile"
+              onClick={(e) => {
+                e.stopPropagation()
+                setAuthor(blog?.author?.id)
+              }}>
+              <h5 className="text-slate-500 text-sm">
+                {blog?.author?.firstName} {blog?.author?.lastName}
+              </h5>
+            </Link>
           </div>
           <span className="text-sm text-slate-700 dot">
             {formateDate(blog?.createdAt)}
@@ -31,17 +43,21 @@ export default function BlogDetails({ blog }) {
 
         {/* <!-- Tags --> */}
         <ul className="tags">
-          {blog?.tags?.split(", ").map((tag) => (
+          {blog?.tags?.split(', ').map((tag) => (
             <li key={tag}> {tag}</li>
           ))}
         </ul>
 
         {/* <!-- Content --> */}
-        <div className="mx-auto w-full md:w-10/12 text-slate-300 text-base md:text-lg leading-8 py-2 !text-left">
-          {blog?.content}
+        <div
+          className="mx-auto w-full md:w-10/12 text-slate-300 text-base md:text-lg leading-8 py-2 !text-left"
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(blog?.content),
+          }}>
+          {/* {blog?.content} */}
         </div>
       </div>
       <BlogComment blog={blog} />
     </section>
-  );
+  )
 }

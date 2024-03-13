@@ -42,8 +42,12 @@ export default function ProfilePage() {
 
   return (
     <>
-      <ProfileInfo />
-      <MyPost />
+      <main className="mx-auto max-w-[1020px] py-8">
+        <div className="container">
+          <ProfileInfo />
+          <MyPost />
+        </div>
+      </main>
     </>
   )
 }

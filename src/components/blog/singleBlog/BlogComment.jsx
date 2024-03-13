@@ -28,6 +28,7 @@ export default function BlogComment({ blog }) {
             type: actions.blog.BLOG_COMMENTED,
             data: response.data,
           });
+          setComments('')
         }
       } catch (error) {
         console.error(error);
