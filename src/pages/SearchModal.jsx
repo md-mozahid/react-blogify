@@ -3,10 +3,16 @@ import SearchContent from "../components/search/SearchContent";
 import SearchHeader from "../components/search/SearchHeader";
 import { CloseIcon } from "../constant/images";
 import { useBlog } from "../hooks";
+import { useDebounce } from "../hooks/useDebounce";
 
 export default function SearchModal({ onClose }) {
   const [search, setSearch] = useState("");
   const { state } = useBlog();
+
+  // debounce
+  const searchQuery = useDebounce((searchTerm) => {
+    searchByString(searchTerm)
+  }, 800)
 
   // searching...
   const searchByString = (blog) =>
@@ -15,7 +21,11 @@ export default function SearchModal({ onClose }) {
     <>
       <section className="absolute left-0 top-0 w-full h-full grid place-items-center bg-slate-800/50 backdrop-blur-sm z-50">
         <div className="relative w-6/12 mx-auto bg-slate-900 p-4 border border-slate-600/50 rounded-lg shadow-lg shadow-slate-400/10">
-          <SearchHeader search={search} onSearch={setSearch} />
+          <SearchHeader
+            search={search}
+            onSearch={setSearch}
+            searchQuery={searchQuery}
+          />
           <div className="">
             <h3 className="text-slate-400 font-bold mt-6">Search Results</h3>
             <div className="my-4 divide-y-2 divide-slate-500/30 max-h-[440px] overflow-y-scroll overscroll-contain">
@@ -34,5 +44,5 @@ export default function SearchModal({ onClose }) {
         </div>
       </section>
     </>
-  );
+  )
 }

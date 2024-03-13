@@ -1,16 +1,21 @@
-import { useEffect } from "react";
-import { useBlog } from "../../hooks";
-import { actions } from "../../actions";
+import { useEffect } from 'react'
+import { actions } from '../../actions'
+import { useBlog } from '../../hooks'
 
-export default function SearchHeader({ search, onSearch }) {
-  const { dispatch } = useBlog();
+export default function SearchHeader({ search, onSearch, searchQuery }) {
+  const { dispatch } = useBlog()
 
   useEffect(() => {
     dispatch({
       type: actions.blogs.BLOG_SEARCH,
       data: search,
-    });
-  }, [dispatch, search]);
+    })
+  }, [dispatch, search])
+
+  const handleChange = (e) => {
+    const value = e.target.value
+    searchQuery(value)
+  }
 
   return (
     <div>
@@ -22,8 +27,9 @@ export default function SearchHeader({ search, onSearch }) {
         placeholder="Start Typing to Search"
         className="w-full bg-transparent p-2 text-base text-white outline-none border rounded-lg focus:ring focus:ring-indigo-600"
         value={search}
-        onChange={(e) => onSearch(e.target.value)}
+        onChange={handleChange}
       />
     </div>
-  );
+  )
 }
+// onSearch(e.target.value)

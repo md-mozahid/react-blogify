@@ -1,10 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
+import { useSingleBlog } from '../../hooks'
 
 export default function FavoriteBlog({ favorite }) {
+  const { setBlogId } = useSingleBlog()
+
   return (
     <>
       <li>
-        <Link to='/single-blog'>
+        <Link to="/single-blog" onClick={() => setBlogId(favorite?.id)}>
           <h3 className="text-slate-400 font-medium hover:text-slate-300 transition-all cursor-pointer">
             {favorite?.title}
           </h3>

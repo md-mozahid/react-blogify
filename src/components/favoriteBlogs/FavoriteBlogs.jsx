@@ -2,7 +2,7 @@ import useFavorite from '../../hooks/useFavorite'
 import FavoriteBlog from './FavoriteBlog'
 
 export default function FavoriteBlogs() {
-  const { favoriteBlogs, error } = useFavorite()
+  const { favoriteBlogs } = useFavorite()
 
   return (
     <div className="sidebar-card">
