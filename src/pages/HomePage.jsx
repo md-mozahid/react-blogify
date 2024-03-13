@@ -11,6 +11,7 @@ export default function HomePage() {
   const [blogPerPage, setBlogPerPage] = useState(4);
   const loaderRefId = useRef(null);
   const { state, dispatch } = useBlog();
+  console.log(state)
 
   useEffect(() => {
     dispatch({ type: actions.blogs.DATA_FETCHING });

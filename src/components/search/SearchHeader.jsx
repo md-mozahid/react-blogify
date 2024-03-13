@@ -32,4 +32,3 @@ export default function SearchHeader({ search, onSearch }) {
     </div>
   );
 }
-// onSearch(e.target.value)

@@ -1,21 +1,20 @@
-import { actions } from "../actions";
+import { actions } from '../actions'
 
 const {
   DATA_FETCHING,
   DATA_FETCHED,
   DATA_FETCH_ERROR,
   BLOG_SEARCH,
-  // BLOG_COMMENTED,
-  // BLOG_DELETED,
-  // BLOG_LIKED,
-} = actions.blogs;
+  DATA_CREATED,
+  DATA_CREATED_ERROR,
+} = actions.blogs
 
 const initialState = {
   blogs: [],
   loading: false,
   error: null,
-  search: "",
-};
+  search: '',
+}
 
 const blogReducer = (state, actions) => {
   switch (actions.type) {
@@ -23,7 +22,7 @@ const blogReducer = (state, actions) => {
       return {
         ...state,
         loading: true,
-      };
+      }
     }
 
     case DATA_FETCHED: {
@@ -31,7 +30,7 @@ const blogReducer = (state, actions) => {
         ...state,
         loading: false,
         blogs: actions.data.blogs,
-      };
+      }
     }
 
     case DATA_FETCH_ERROR: {
@@ -39,16 +38,30 @@ const blogReducer = (state, actions) => {
         ...state,
         loading: false,
         error: actions.error,
-      };
+      }
+    }
+
+    case DATA_CREATED: {
+      return {
+        ...state,
+        loading: true,
+        blogs: [...state.blogs, actions.data.blogs],
+      }
+    }
+    case DATA_CREATED_ERROR: {
+      return {
+        ...state,
+        error: actions.error,
+      }
     }
 
     case BLOG_SEARCH: {
       return {
         ...state,
         search: actions.data,
-      };
+      }
     }
   }
-};
+}
 
-export { blogReducer, initialState };
+export { blogReducer, initialState }

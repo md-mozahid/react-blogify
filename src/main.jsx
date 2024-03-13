@@ -17,11 +17,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <AuthProvider>
       <ToastContainer
         position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        closeOnClick
-        draggable
+        autoClose={2000}
         theme="dark"
         transition:Bounce
       />

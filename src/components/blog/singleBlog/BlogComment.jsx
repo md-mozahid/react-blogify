@@ -7,7 +7,7 @@ import { actions } from "../../../actions";
 import { toast } from "react-toastify";
 
 export default function BlogComment({ blog }) {
-  const [comments, setComments] = useState(blog?.comments);
+  const [comments, setComments] = useState('');
   const { auth } = useAuth();
   const { serverApi } = useApi();
   const { dispatch } = useSingleBlog();
