@@ -1,21 +1,21 @@
-import { useEffect } from 'react'
-import { actions } from '../../actions'
-import { useBlog } from '../../hooks'
+import { useEffect } from "react";
+import { actions } from "../../actions";
+import { useBlog } from "../../hooks";
 
-export default function SearchHeader({ search, onSearch, searchQuery }) {
-  const { dispatch } = useBlog()
+export default function SearchHeader({ search, onSearch }) {
+  const { dispatch } = useBlog();
 
   useEffect(() => {
     dispatch({
       type: actions.blogs.BLOG_SEARCH,
       data: search,
-    })
-  }, [dispatch, search])
+    });
+  }, [dispatch, search]);
 
   const handleChange = (e) => {
-    const value = e.target.value
-    searchQuery(value)
-  }
+    const value = e.target.value;
+    onSearch(value);
+  };
 
   return (
     <div>
@@ -30,6 +30,6 @@ export default function SearchHeader({ search, onSearch, searchQuery }) {
         onChange={handleChange}
       />
     </div>
-  )
+  );
 }
 // onSearch(e.target.value)

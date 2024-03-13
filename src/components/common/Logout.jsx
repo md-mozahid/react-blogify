@@ -1,22 +1,25 @@
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../hooks'
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks";
+import { toast } from "react-toastify";
 
 export default function Logout() {
-  const { setAuth } = useAuth()
-  const navigate = useNavigate()
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    setAuth({})
-    navigate('/')
-  }
+    setAuth({});
+    navigate("/");
+    toast.success("Logout successful");
+  };
   return (
     <>
       <button
         className="text-white/50 hover:text-white transition-all
           duration-200"
-        onClick={handleLogout}>
+        onClick={handleLogout}
+      >
         Logout
       </button>
     </>
-  )
+  );
 }

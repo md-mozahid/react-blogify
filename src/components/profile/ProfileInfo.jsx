@@ -20,7 +20,7 @@ export default function ProfileInfo() {
           </h3>
           <p className="leading-[231%] lg:text-lg">{user?.email}</p>
         </div>
-        <Bio />
+        <Bio isLoggedInUser={isLoggedInUser} />
         <div className="w-3/4 border-b border-[#3F3F3F] py-6 lg:py-8"></div>
       </div>
     </>

@@ -17,13 +17,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <AuthProvider>
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={3000}
         hideProgressBar={false}
-        newestOnTop={false}
+        newestOnTop={true}
         closeOnClick
-        pauseOnFocusLoss
         draggable
-        pauseOnHover
         theme="dark"
         transition:Bounce
       />

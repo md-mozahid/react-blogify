@@ -1,27 +1,36 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { localhostApi } from "../api";
 import BlogList from "../components/blog/BlogList";
-import { useApi, useBlog } from "../hooks";
+import { useBlog } from "../hooks";
 import SideBar from "./SideBar";
 import { actions } from "../actions";
+import axios from "axios";
 
 export default function HomePage() {
+  const [hasMore, setHasMore] = useState(true);
+  const [blogPerPage, setBlogPerPage] = useState(4);
+  const loaderRefId = useRef(null);
   const { state, dispatch } = useBlog();
-  const { serverApi } = useApi();
 
   useEffect(() => {
     dispatch({ type: actions.blogs.DATA_FETCHING });
+
     const fetchBlogs = async () => {
       try {
-        const response = await serverApi.get(`${localhostApi}/blogs?page=1`);
-        if (response.status === 200) {
-          dispatch({
-            type: actions.blogs.DATA_FETCHED,
-            data: response.data,
-          });
+        const response = await axios.get(
+          `${localhostApi}/blogs?limit=${blogPerPage}&page=1`
+        );
+        if (response?.data?.blogs?.length < blogPerPage) {
+          setHasMore(false);
+        } else {
+          setBlogPerPage((prev) => prev + 4);
         }
+
+        dispatch({
+          type: actions.blogs.DATA_FETCHED,
+          data: response.data,
+        });
       } catch (error) {
-        console.error("Error fetching blogs...", error);
         dispatch({
           type: actions.blogs.DATA_FETCH_ERROR,
           error: error.message,
@@ -29,8 +38,23 @@ export default function HomePage() {
       }
     };
 
-    fetchBlogs();
-  }, [serverApi, dispatch]);
+    const onIntersection = (items) => {
+      const loaderRefId = items[0];
+      if (loaderRefId.isIntersecting && hasMore) {
+        fetchBlogs();
+      }
+    };
+
+    const observer = new IntersectionObserver(onIntersection);
+    if (observer && loaderRefId.current) {
+      observer.observe(loaderRefId.current);
+
+      // cleaner
+      return () => {
+        if (observer) observer.disconnect();
+      };
+    }
+  }, [dispatch, blogPerPage, hasMore]);
 
   return (
     <>
@@ -44,6 +68,15 @@ export default function HomePage() {
               <SideBar />
             </div>
           </div>
+          {hasMore ? (
+            <div ref={loaderRefId} className="text-center mt-5 text-2xl">
+              Load More Blog....
+            </div>
+          ) : (
+            <div className="p-4 text-center mt-5 text-2xl">
+              There are no more blogs on the server.
+            </div>
+          )}
         </section>
       </main>
     </>

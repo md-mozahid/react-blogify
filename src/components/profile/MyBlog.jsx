@@ -1,7 +1,7 @@
 import { useProfile } from "../../hooks/useProfile";
 import BlogList from "../blog/BlogList";
 
-export default function MyPost() {
+export default function MyBlog() {
   const { state } = useProfile();
   // console.log(state);
   const blogs = state?.blogs

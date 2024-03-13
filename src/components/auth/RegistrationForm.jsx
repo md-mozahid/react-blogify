@@ -1,8 +1,12 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Field from "../common/Field";
+import { serverApi } from "../../api";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function RegistrationForm() {
+  const { auth } = useAuth();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -10,7 +14,21 @@ export default function RegistrationForm() {
     formState: { errors },
   } = useForm();
 
-  const registerFormSubmit = () => {};
+  const registerFormSubmit = async (formData) => {
+    if (!auth?.user?.id) {
+      try {
+        const response = await serverApi.post(`/auth/register`, formData);
+        if (response.status === 200) {
+          navigate("/login");
+        }
+      } catch (error) {
+        setError("root.random", {
+          type: "random",
+          message: ` ${error.response.data.error} `,
+        });
+      }
+    }
+  };
   return (
     <>
       <div className="w-full md:w-1/2 mx-auto bg-[#030317] p-8 rounded-md mt-12">
@@ -22,6 +40,7 @@ export default function RegistrationForm() {
         >
           <Field label="First Name" error={errors.firstName}>
             <input
+              {...register("firstName", { required: "First Name" })}
               type="text"
               id="firstName"
               name="firstName"
@@ -30,6 +49,7 @@ export default function RegistrationForm() {
           </Field>
           <Field label="Last Name" error={errors.lastName}>
             <input
+              {...register("lastName")}
               type="text"
               id="lastName"
               name="lastName"
@@ -38,6 +58,7 @@ export default function RegistrationForm() {
           </Field>
           <Field label="Email" error={errors.email}>
             <input
+              {...register("email", { required: "Email ID is Required" })}
               type="email"
               id="email"
               name="email"

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { actions } from '../actions'
 import { localhostApi } from '../api'
-import MyPost from '../components/profile/MyPost'
+import MyBlog from '../components/profile/MyBlog'
 import ProfileInfo from '../components/profile/ProfileInfo'
 import { useApi } from '../hooks/useApi'
 import { useProfile } from '../hooks/useProfile'
@@ -45,7 +45,7 @@ export default function ProfilePage() {
       <main className="mx-auto max-w-[1020px] py-8">
         <div className="container">
           <ProfileInfo />
-          <MyPost />
+          <MyBlog />
         </div>
       </main>
     </>
