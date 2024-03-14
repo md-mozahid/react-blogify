@@ -1,71 +1,82 @@
-import { useRef } from 'react'
-import { useForm } from 'react-hook-form'
-import { useNavigate, useParams } from 'react-router'
-import { actions } from '../actions'
-import { localhostApi } from '../api'
-import Field from '../components/common/Field'
-import { useApi, useBlog, useSingleBlog } from '../hooks'
+import { useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
+import { actions } from "../actions";
+import { localhostApi } from "../api";
+import Field from "../components/common/Field";
+import { useApi, useBlog, useGetBlog, useSingleBlog } from "../hooks";
+import { toast } from "react-toastify";
 
 export default function UpdateBlog() {
-  const { dispatch } = useBlog(id)
-  const { setBlogId } = useSingleBlog()
-  const { serverApi } = useApi()
-  const loaderRef = useRef(null)
-  const navigate = useNavigate()
-  const { id } = useParams()
+  const { state, dispatch } = useBlog();
+  const { serverApi } = useApi();
+  const loaderRef = useRef(null);
+  const navigate = useNavigate();
+  const { blogId } = useSingleBlog();
+  const { blog } = useGetBlog(blogId);
+
+  console.log(blogId);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
-    reset,
-  } = useForm()
+    setValue,
+  } = useForm();
+
+  // Set default form values from the blog object
+  useEffect(() => {
+    setValue("title", blog?.title || "");
+    setValue("tags", blog?.tags || "");
+    setValue("content", blog?.content || "");
+  }, [blog, setValue]);
 
   const handleImageUpload = (e) => {
-    e.preventDefault()
-    loaderRef.current.click()
-  }
+    e.preventDefault();
+    loaderRef.current.click();
+  };
 
-  // const handleChange = (e) => {
-  //   if(e.target.files.length > 0) {
-  //     const selectedFile = e.target.files[0]
-  //   }
-  // }
+  const handleChange = (e) => {
+    if (e.target.files.length > 0) {
+      const selectedFile = e.target.files[0];
+      console.log(selectedFile);
+    }
+  };
 
   const handleBlogSubmit = async (data) => {
-    dispatch({ type: actions.blogs.DATA_FETCHING })
-    reset()
-    navigate('/single-blog')
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("content", data.content);
+    formData.append("tags", data.tags);
 
+    if (loaderRef.current && loaderRef.current.files.length > 0) {
+      formData.append("thumbnail", loaderRef.current.files[0]);
+    }
+    console.log("ago", state);
+    dispatch({ type: actions.blog.DATA_FETCHING });
     try {
-      const formData = new FormData()
-      formData.append('title', data.title)
-      formData.append('tags', data.tags)
-      formData.append('content', data.content)
+      const response = await serverApi.patch(
+        `${localhostApi}/blogs/${blogId}`,
+        formData
+      );
 
-      if (loaderRef.current && loaderRef.current.files.length > 0) {
-        formData.append('thumbnail', loaderRef.current.files[0])
-      }
-
-      const response = await serverApi.post(`${localhostApi}/blogs`, formData)
-
-      setBlogId(response?.data?.blog?.id)
-
-      if (response.status === 201) {
-        dispatch({ type: actions.blogs.DATA_CREATED, data: response.data })
+      if (response.status === 200) {
+        dispatch({
+          type: actions.blog.DATA_EDITED,
+          data: response.data,
+        });
+        navigate(`/single-blog/${response?.data?.id}`);
+        toast.success("Blog updated successfully!");
+        console.log("then", state);
       }
     } catch (error) {
+      toast.error("An error Occurred");
       dispatch({
-        type: actions.blogs.DATA_CREATED_ERROR,
+        type: actions.blog.DATA_FETCH_ERROR,
         error: error.message,
-      })
-      setError('root.random', {
-        type: 'random',
-        message: `Something went wrong`,
-      })
+      });
     }
-  }
+  };
 
   return (
     <>
@@ -74,18 +85,21 @@ export default function UpdateBlog() {
           <div className="container">
             <form
               className="createBlog"
-              onSubmit={handleSubmit(handleBlogSubmit)}>
+              onSubmit={handleSubmit(handleBlogSubmit)}
+            >
               <div className="grid place-items-center bg-slate-600/20 h-[150px] rounded-md my-4">
                 <button
                   className="flex items-center gap-4 hover:scale-110 transition-all cursor-pointer"
-                  onClick={handleImageUpload}>
+                  onClick={handleImageUpload}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth="1.5"
                     stroke="currentColor"
-                    className="w-6 h-6">
+                    className="w-6 h-6"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -99,13 +113,13 @@ export default function UpdateBlog() {
                   id="photo"
                   name="photo"
                   className="hidden"
-                  // onChange={handleChange}
+                  onChange={handleChange}
                   ref={loaderRef}
                 />
               </div>
               <Field label="" error={errors.title}>
                 <input
-                  {...register('title', { required: 'Title is required!' })}
+                  {...register("title", { required: "Title is required!" })}
                   type="text"
                   id="title"
                   name="title"
@@ -115,7 +129,7 @@ export default function UpdateBlog() {
 
               <Field label="" error={errors.tags}>
                 <input
-                  {...register('tags', { required: 'Tags is required' })}
+                  {...register("tags", { required: "Tags is required" })}
                   type="text"
                   id="tags"
                   name="tags"
@@ -125,16 +139,18 @@ export default function UpdateBlog() {
 
               <Field label="" error={errors.content}>
                 <textarea
-                  {...register('content', { required: 'Content is required' })}
+                  {...register("content", { required: "Content is required" })}
                   id="content"
                   name="content"
                   placeholder="Write your blog content"
-                  rows="8"></textarea>
+                  rows="8"
+                ></textarea>
               </Field>
 
               <button
                 type="submit"
-                className="bg-indigo-600 text-white px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200">
+                className="bg-indigo-600 text-white px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200"
+              >
                 Update Blog
               </button>
             </form>
@@ -142,5 +158,5 @@ export default function UpdateBlog() {
         </section>
       </main>
     </>
-  )
+  );
 }

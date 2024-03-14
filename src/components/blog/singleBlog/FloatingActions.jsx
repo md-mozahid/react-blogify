@@ -75,6 +75,7 @@ export default function FloatingActions({ blog }) {
           //   data: response.data,
           // })
           setIsFav(true)
+          toast.success('Blog added to favorite')
         } else {
           setIsFav(false)
         }

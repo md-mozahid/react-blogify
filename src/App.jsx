@@ -19,14 +19,14 @@ function App() {
         <Route element={<PrivateRoutes />}>
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/create-blog" element={<CreateBlog />} />
-          <Route path="/update-blog/:blogId" element={<UpdateBlog />} />
+          <Route path="/update-blog" element={<UpdateBlog />} />
         </Route>
         <Route element={<PublicRoutes />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/single-blog" element={<SingleBlog />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegistrationPage />} />
-          <Route path="/not-found" element={<NotFoundPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </>

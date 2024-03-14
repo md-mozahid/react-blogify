@@ -7,7 +7,8 @@ const {
   BLOG_COMMENTED,
   BLOG_COMMENTED_ERROR,
   BLOG_LIKED,
-  BLOG_FAVORITE
+  BLOG_FAVORITE,
+  DATA_EDITED,
 } = actions.blog;
 
 const initialState = {
@@ -70,7 +71,7 @@ const singleBlogReducer = (state, actions) => {
         },
       };
     }
-    
+
     case BLOG_FAVORITE: {
       return {
         ...state,
@@ -79,6 +80,23 @@ const singleBlogReducer = (state, actions) => {
           ...state.blog,
           isFavorite: actions.data.isFavorite,
         },
+      };
+    }
+
+    case DATA_EDITED: {
+      const updatedBlog = actions.data;
+      const updatedBlogs = state.blogs.map((blog) => {
+        if (blog.id === updatedBlog.id) {
+          return updatedBlog;
+        } else {
+          return blog;
+        }
+      });
+
+      return {
+        ...state,
+        loading: false,
+        blogs: updatedBlogs,
       };
     }
 

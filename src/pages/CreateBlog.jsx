@@ -26,11 +26,12 @@ export default function CreateBlog() {
     loaderRef.current.click()
   }
 
-  // const handleChange = (e) => {
-  //   if(e.target.files.length > 0) {
-  //     const selectedFile = e.target.files[0]
-  //   }
-  // }
+  const handleChange = (e) => {
+    if(e.target.files.length > 0) {
+      const selectedFile = e.target.files[0]
+      console.log(selectedFile)
+    }
+  }
 
   const handleBlogSubmit = async (data) => {
     dispatch({ type: actions.blogs.DATA_FETCHING })
@@ -98,7 +99,7 @@ export default function CreateBlog() {
                   id="photo"
                   name="photo"
                   className="hidden"
-                  // onChange={handleChange}
+                  onChange={handleChange}
                   ref={loaderRef}
                 />
               </div>

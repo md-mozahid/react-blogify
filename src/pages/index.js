@@ -17,5 +17,5 @@ export {
   SearchModal,
   NotFoundPage,
   SingleBlog,
-  UpdateBlog
+  UpdateBlog,
 };
