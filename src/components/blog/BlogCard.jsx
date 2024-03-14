@@ -37,7 +37,7 @@ export default function BlogCard({ blog }) {
               {blog?.content}
             </p>
             <BlogAuthorInfo blog={blog} />
-            {showBlogAction && <BlogHeader />}
+            {showBlogAction && <BlogHeader blog={blog} />}
           </div>
         </div>
       </div>

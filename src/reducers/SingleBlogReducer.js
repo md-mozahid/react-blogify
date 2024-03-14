@@ -6,7 +6,6 @@ const {
   DATA_FETCH_ERROR,
   BLOG_COMMENTED,
   BLOG_COMMENTED_ERROR,
-  BLOG_DELETED,
   BLOG_LIKED,
   BLOG_FAVORITE
 } = actions.blog;
@@ -80,14 +79,6 @@ const singleBlogReducer = (state, actions) => {
           ...state.blog,
           isFavorite: actions.data.isFavorite,
         },
-      };
-    }
-
-    case BLOG_DELETED: {
-      return {
-        ...state,
-        loading: false,
-        error: actions.error,
       };
     }
 

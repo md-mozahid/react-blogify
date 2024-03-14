@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from 'react-router-dom'
 import {
   CreateBlog,
   HomePage,
@@ -7,9 +7,10 @@ import {
   ProfilePage,
   RegistrationPage,
   SingleBlog,
-} from "./pages";
-import PublicRoutes from "./routes/Routes";
-import PrivateRoutes from "./routes/PrivateRoutes";
+  UpdateBlog,
+} from './pages'
+import PrivateRoutes from './routes/PrivateRoutes'
+import PublicRoutes from './routes/Routes'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route element={<PrivateRoutes />}>
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/create-blog" element={<CreateBlog />} />
+          <Route path="/update-blog/:blogId" element={<UpdateBlog />} />
         </Route>
         <Route element={<PublicRoutes />}>
           <Route path="/" element={<HomePage />} />
@@ -28,7 +30,7 @@ function App() {
         </Route>
       </Routes>
     </>
-  );
+  )
 }
 
-export default App;
+export default App

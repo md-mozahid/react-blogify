@@ -58,13 +58,13 @@ export default function FloatingActions({ blog }) {
     setIsFav(isFavorite)
   }, [blog?.id, favoriteBlogs])
 
-  const handleFavorite =async () => {
+  const handleFavorite = async () => {
     if (!auth?.user) {
       toast.error('Please login to favorite the blog!')
     }
 
     try {
-      const response =await serverApi.patch(
+      const response = await serverApi.patch(
         `${localhostApi}/blogs/${blog?.id}/favourite`
       )
 
@@ -96,10 +96,7 @@ export default function FloatingActions({ blog }) {
           <span>{blog?.likes?.length ?? 0}</span>
         </li>
         <li onClick={handleFavorite}>
-          <img
-            src={isFav ? HeartFilledIcon : HeartIcon}
-            alt="favorite"
-          />
+          <img src={isFav ? HeartFilledIcon : HeartIcon} alt="favorite" />
         </li>
         <a href="#comments">
           <li>

@@ -1,17 +1,18 @@
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { actions } from '../actions'
 import { localhostApi } from '../api'
 import Field from '../components/common/Field'
 import { useApi, useBlog, useSingleBlog } from '../hooks'
 
-export default function CreateBlog() {
-  const { dispatch } = useBlog()
+export default function UpdateBlog() {
+  const { dispatch } = useBlog(id)
   const { setBlogId } = useSingleBlog()
   const { serverApi } = useApi()
   const loaderRef = useRef(null)
   const navigate = useNavigate()
+  const { id } = useParams()
 
   const {
     register,
@@ -134,7 +135,7 @@ export default function CreateBlog() {
               <button
                 type="submit"
                 className="bg-indigo-600 text-white px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200">
-                Create Blog
+                Update Blog
               </button>
             </form>
           </div>

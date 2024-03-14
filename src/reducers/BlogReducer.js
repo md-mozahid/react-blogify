@@ -7,6 +7,7 @@ const {
   BLOG_SEARCH,
   DATA_CREATED,
   DATA_CREATED_ERROR,
+  BLOG_DELETED,
 } = actions.blogs
 
 const initialState = {
@@ -44,7 +45,7 @@ const blogReducer = (state, actions) => {
     case DATA_CREATED: {
       return {
         ...state,
-        loading: true,
+        loading: false,
         blogs: [...state.blogs, actions.data.blogs],
       }
     }
@@ -59,6 +60,14 @@ const blogReducer = (state, actions) => {
       return {
         ...state,
         search: actions.data,
+      }
+    }
+
+    case BLOG_DELETED: {
+      return {
+        ...state,
+        loading: false,
+        blogs: state.blogs.filter((item) => item.id !== actions.data),
       }
     }
   }

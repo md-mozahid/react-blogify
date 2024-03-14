@@ -1,8 +1,35 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { actions } from '../../actions'
+import { localhostApi } from '../../api'
 import { DeleteIcon, EditIcon, ThreeDots } from '../../constant/images'
+import { useApi, useBlog } from '../../hooks'
 
-export default function BlogHeader() {
+export default function BlogHeader({ blog }) {
   const [showAction, setShowAction] = useState(false)
+  const { serverApi } = useApi()
+  const { dispatch } = useBlog()
+
+  const handleDeleted = async (e) => {
+    e.stopPropagation()
+    try {
+      const res = await serverApi.delete(`${localhostApi}/blogs/${blog?.id}`)
+      if (res.status === 200) {
+        dispatch({
+          type: actions.blogs.BLOG_DELETED,
+          data: res.id,
+        })
+        toast.success('Deleted successfully done!')
+      }
+    } catch (error) {
+      toast.error(error.message)
+      dispatch({
+        type: actions.blog.DATA_FETCH_ERROR,
+        error: error.message,
+      })
+    }
+  }
   return (
     <div className="absolute right-2 top-2">
       <button
@@ -14,11 +41,15 @@ export default function BlogHeader() {
 
       {showAction && (
         <div className="action-modal-container">
-          <button className="action-menu-item hover:text-lwsGreen">
-            <img src={EditIcon} alt="Edit" />
-            Edit
-          </button>
-          <button className="action-menu-item hover:text-red-500">
+          <Link to={`/update-blog/${blog?.id}`}>
+            <button className="action-menu-item hover:text-lwsGreen">
+              <img src={EditIcon} alt="Edit" />
+              Edit
+            </button>
+          </Link>
+          <button
+            className="action-menu-item hover:text-red-500"
+            onClick={handleDeleted}>
             <img src={DeleteIcon} alt="Delete" />
             Delete
           </button>
